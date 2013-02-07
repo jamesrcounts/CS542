@@ -36,66 +36,97 @@ public:
 	/*
 	Initializes a new instance of the stack class.
 	*/
-	Stack()
-	{
-		last = -1;
-		for(int i = 0; i < STACK_CAPACITY; i++)
-		{
-			items[i] = 0;
-		}
-	}	
+	Stack();
 	
 	/*
 	Adds the character specified by the parameter 'c' to the 
 	top of the stack.
 	*/
-	void push( char c )
-	{
-		if(last == STACK_CAPACITY)
-		{
-			throw soex;
-		}
-
-		items[++last] = c;		
-	}
+	void push( char c );
 	 
 	/*
 	Removes the top element
 	*/
-	void pop()
-	{
-		if (!isEmpty())
-		{
-			last--;
-		}
-	}
+	void pop();
 
 	/*
 	Returns the top element.
 	*/
-	char top()
-	{
-		if(isEmpty())
-		{
-			throw suex;
-		}
-
-		return items[last];
-	}
+	char top();
 
 	/*
 	Returns true iff the stack is empty.
 	*/
-	bool isEmpty()
-	{
-		return (last < 0);
-	}
+	bool isEmpty();
 
 	/*
 	Class destructor.
 	*/
-	~Stack()
-	{
-		/* nothing to do */
-	}
+	~Stack();
 };
+
+/*
+Initializes a new instance of the stack class.
+*/
+Stack::Stack()
+{
+	last = -1;
+	for(int i = 0; i < STACK_CAPACITY; i++)
+	{
+		items[i] = 0;
+	}
+}	
+
+/*
+Adds the character specified by the parameter 'c' to the 
+top of the stack.
+*/
+void Stack::push( char c )
+{
+	if(last == STACK_CAPACITY)
+	{
+		throw soex;
+	}
+
+	items[++last] = c;		
+}
+ 
+/*
+Removes the top element
+*/
+void Stack::pop()
+{
+	if (!isEmpty())
+	{
+		last--;
+	}
+}
+
+/*
+Returns the top element.
+*/
+char Stack::top()
+{
+	if(isEmpty())
+	{
+		throw suex;
+	}
+
+	return items[last];
+}
+
+/*
+Returns true iff the stack is empty.
+*/
+bool Stack::isEmpty()
+{
+	return (last < 0);
+}
+
+/*
+Class destructor.
+*/
+Stack::~Stack()
+{
+	/* nothing to do */
+}
