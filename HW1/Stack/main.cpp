@@ -19,12 +19,9 @@ int main (int argc, const char * argv[])
 {
 	string input;
 	Stack s;
-	while(1)
-	{
-
-		cout << "Please enter a string without spaces." << endl;
-		cin >> input;
-		
+	cout << "Please enter a string without spaces." << endl;
+	while(cin >> input)
+	{				
 		for (
 			string::iterator it = input.begin();
 			it != input.end();
@@ -40,5 +37,6 @@ int main (int argc, const char * argv[])
 		}
 
 		cout << endl;
+		cout << "Try again or you may exit by pressing Control-D (Unix) or Control-Z (Windows)" << endl;
 	}
 }
