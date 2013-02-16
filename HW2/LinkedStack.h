@@ -1,5 +1,5 @@
 #ifndef LINKEDSTACK_H
-#define LINKEDSTACK_H 1
+#define LINKEDSTACK_H
 
 #include <iostream>
 #include "LinkedStackMember.h"

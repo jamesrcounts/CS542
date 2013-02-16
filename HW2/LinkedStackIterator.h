@@ -1,5 +1,5 @@
 #ifndef LINKEDSTACKITERATOR_H
-#define LINKEDSTACKITERATOR_H 1
+#define LINKEDSTACKITERATOR_H
 
 #include "LinkedStack.h"
 
@@ -34,4 +34,7 @@ public:
         index = collection->head;
     }
 };
+
+ostream & operator << (ostream & out, LinkedStack & s);
+
 #endif

@@ -1,9 +1,8 @@
 #ifndef LINKEDSTACKMEMENTO_H
-#define LINKEDSTACKMEMENTO_H 1
+#define LINKEDSTACKMEMENTO_H
 
 class LinkedStack;
 
-// (30 points) Write the LinkedStackMemento for LinkedStack.
 class LinkedStackMemento
 {
     friend class LinkedStack;

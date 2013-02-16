@@ -1,5 +1,5 @@
 #ifndef LINKEDSTACKMEMBER_H
-#define LINKEDSTACKMEMBER_H 1
+#define LINKEDSTACKMEMBER_H
 
 typedef class LinkedStackMember * LinkedStackNode;
 class LinkedStackMember
