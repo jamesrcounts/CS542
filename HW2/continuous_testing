@@ -77,7 +77,7 @@ def files_have_changed
 end
 
 def get_errors_in(output)
-  error_pattern = /[Ee]rror|FAIL/
+  error_pattern = /undefined|[Ee]rror|FAIL|[^a]style|warning|performance|portability|information/
   output.split("\n").select{|item| error_pattern =~ item}
 end
 

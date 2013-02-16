@@ -1,41 +1,21 @@
 #ifndef LINKEDSTACKMEMENTO_H
-#define LINKEDSTACKMEMENTO_H
-#include "LinkedStack.h"
+#define LINKEDSTACKMEMENTO_H 1
 
+class LinkedStack;
+
+// (30 points) Write the LinkedStackMemento for LinkedStack.
 class LinkedStackMemento
 {
     friend class LinkedStack;
     char * state;
     int size;
-    LinkedStackMemento(LinkedStack * stack)
-    {
-        size = stack->size();
-        state = new char[size];
-        int i = 0;
-        for(CharLinkedList p = stack->head; p != 0; p = p->next)
-        {
-            state[i++] = p->info;
-        }
-    }
-
-    void restore(LinkedStack * stack)
-    {
-        while(!stack->isEmpty())
-        {
-            stack->pop();
-        }
-
-        for(int i = dataSize; i > 0;)
-        {
-            stack->push(state[--i]);
-        }
-
-    }
-
+    LinkedStackMemento(LinkedStack * stack);
+    void restore(LinkedStack * stack);
 public:
     ~LinkedStackMemento()
     {
         delete state;
     }
 };
+
 #endif
