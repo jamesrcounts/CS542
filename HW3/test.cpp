@@ -24,13 +24,20 @@ class String
 public:
     String( const char *s = "" )
     {
-        for ( len = 0; s[len] != 0; len++ )
+        for ( len = 0; s[len] != 0; ++len )
         {
             // do nothing
         }
 
-        buf = new char[len];
+        buf = new char[len++];
         memcpy( buf, s, len );
+    }
+
+    String( const String &s )
+    {
+        len = s.len;
+        buf = new char[len];
+        memcpy( buf, s.buf, len );
     }
 
     ~String()
@@ -45,10 +52,10 @@ public:
 private:
     char *buf;
     int len;
+
     /*public:
         /// Both constructors should construct
         /// this String from the parameter s
-        String( const String &s );
         String operator = ( const String &s );
         char &operator []( int index );
         int size();
@@ -81,6 +88,49 @@ int main()
 {
     return TestRunner::RunAllTests();
 }
+
+/*
+As a String object
+I want to initialize myself from another String
+So that I can be constructed
+*/
+Context( InitializeFromString )
+{
+    String *source;
+    String *received;
+
+    // cppcheck-suppress unusedFunction
+    void SetUp()
+    {
+        source = NULL;
+        source = new String( "Hello World" );
+
+        received = NULL;
+        received = new String( *source );
+    }
+
+    // cppcheck-suppress unusedFunction
+    void TearDown()
+    {
+        delete source;
+        delete received;
+    }
+
+    Spec( GivenAString )
+    {
+        Assert::That( ( int )source, !Equals( NULL ) );
+    }
+
+    Spec( WhenIConstructAString )
+    {
+        Assert::That( ( int )received, !Equals( NULL ) );
+    }
+
+    Spec( ThenMyStringShouldRepresentTheSameData )
+    {
+        Assert::That( received->c_str(), Equals( source->c_str() ) );
+    }
+};
 
 /*
 As a String object
