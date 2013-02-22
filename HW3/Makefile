@@ -1,34 +1,33 @@
 ###################################
 # Makefile
-# HW 2
-# CS542 - Spring 2013
+# HW 3
+# CS542 - OO - Spring 2013
 # Jim Counts
 ###################################
 CC = g++
+INCLUDE = -I ../igloo
 CFLAGS = -O2 -Wall
-SRCS = hw2.cpp hw1.cpp LinkedStackMemento.cpp LinkedStack.cpp LinkedStackMemento.h LinkedStackMember.h LinkedStack.h LinkedStackIterator.h
+SRCS = test.cpp
+CHKFLAGS = -v --inline-suppr --suppress=unmatchedSuppression --enable=all
 
-all: hw1 hw2 format
+all: check 
 
-hw1: 
-	$(CC) hw1.cpp -o hw1 $(CFLAGS)
+runtest: test
+	./test
 
-hw2: LinkedStack.o LinkedStackMemento.o
-	$(CC) hw2.cpp LinkedStack.o LinkedStackMemento.o -o hw2 $(CFLAGS)
+test: test.cpp format
+	$(CC) $(INCLUDE) test.cpp -o test $(CFLAGS)	
 
-LinkedStackIterator.gch: LinkedStack.o
-	$(CC) LinkedStackIterator.h $(CFLAGS)
+server.o: 
+	$(CC) $(INCLUDE) -c server.h $(CFLAGS)
 
-LinkedStack.o: LinkedStackMemento.o
+object: 
 	$(CC) -c LinkedStack.h LinkedStack.cpp $(CFLAGS)
 
-LinkedStackMemento.o: LinkedStackMember.gch
-	$(CC) -c LinkedStackMemento.h LinkedStackMemento.cpp $(CFLAGS)
-
-LinkedStackMember.gch: format
-	$(CC) LinkedStackMember.h $(CFLAGS)
-
 format:
-	astyle -bps4 $(SRCS)
+	astyle -YfDHUbps4yj -k3 $(SRCS)
+
+check: runtest
+	cppcheck $(CHKFLAGS) $(SRCS)
 
 # DO NOT DELETE
