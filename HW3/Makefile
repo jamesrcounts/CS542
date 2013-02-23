@@ -6,7 +6,7 @@
 ###################################
 CC = g++
 INCLUDE = -I ../igloo
-CFLAGS = -O2 -Wall
+CFLAGS = -O2 -Wall -fno-strict-overflow
 SRCS = test.cpp
 CHKFLAGS = -v --inline-suppr --enable=all
 
