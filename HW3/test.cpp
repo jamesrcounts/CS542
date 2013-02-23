@@ -37,6 +37,23 @@ public:
         len = s.len;
     }
 
+    String reverse()
+    {
+        char *reversed = new char[len];
+
+        int i = 0;
+        int j = len - 2;
+
+        while ( i < len )
+        {
+            reversed[i++] = buf[j--];
+        }
+
+        reversed[len] = 0;
+        String *r = new String( reversed );
+        return *r;
+    }
+
     int size()
     {
         return len - 1;
@@ -103,7 +120,6 @@ private:
     }
 
     /*public:
-        String reverse(); // does not modify this String
         int indexOf( char c );
         int indexOf( String pattern );
         bool operator == ( String s );
@@ -131,6 +147,15 @@ int main()
 
 Context( UsingStringFunctions )
 {
+    Spec( GetReservedString )
+    {
+        String expected( "olleH" );
+        String source( "Hello" );
+        String received = source.reverse();
+        Assert::That( received.c_str(), Equals( expected.c_str() ) );
+        Assert::That( source.c_str(), Equals( "Hello" ) );
+    }
+
     Spec( GetSize )
     {
         String target( "Test String" );
