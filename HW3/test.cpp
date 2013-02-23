@@ -24,20 +24,51 @@ class String
 public:
     String( const char *s = "" )
     {
-        for ( len = 0; s[len] != 0; ++len )
-        {
-            // do nothing
-        }
-
-        buf = new char[len++];
-        memcpy( buf, s, len );
+        buf = NULL;
+        len = string_length( s );
+        buf = string_copy( buf, s, len );
     }
 
     String( const String &s )
     {
+        buf = NULL;
+        buf = string_copy( buf, s.buf, s.len );
         len = s.len;
-        buf = new char[len];
-        memcpy( buf, s.buf, len );
+    }
+
+    String &operator = ( const String &s )
+    {
+        buf = string_copy( buf, s.buf, s.len );
+        len = s.len;
+
+        return *this;
+    }
+
+    static int string_length( const char *source )
+    {
+        int length;
+
+        for ( length = 0; source[length] != 0; ++length )
+        {
+            // do nothing
+        }
+
+        return ++length;
+    }
+
+    static char *string_copy( char *target, const char *source, int length )
+    {
+        if ( target != source )
+        {
+            char *t = new char[length];
+            memcpy( t, source, length );
+
+            delete[] target;
+
+            target = t;
+        }
+
+        return target;
     }
 
     ~String()
@@ -56,7 +87,6 @@ private:
     /*public:
         /// Both constructors should construct
         /// this String from the parameter s
-        String operator = ( const String &s );
         char &operator []( int index );
         int size();
         String reverse(); // does not modify this String
@@ -88,6 +118,57 @@ int main()
 {
     return TestRunner::RunAllTests();
 }
+
+/*
+As a String object
+I want my assignment operator to do a deep copy
+So that I can get my value by assignment.
+*/
+Context( InitializeByAssignment )
+{
+    String *source;
+    String *target;
+
+    // cppcheck-suppress unusedFunction
+    void SetUp()
+    {
+        source = NULL;
+        source = new String( "Hello World" );
+
+        target = NULL;
+        target = new String( "Goodbye" );
+
+        *target = *source;
+    };
+
+    // cppcheck-suppress unusedFunction
+    void TearDown()
+    {
+        delete source;
+        delete target;
+    };
+
+    Spec( GivenAString )
+    {
+        Assert::That( ( int )source, !Equals( NULL ) );
+    }
+
+    Spec( AndGivenASecondString )
+    {
+        Assert::That( ( int )target, !Equals( NULL ) );
+    }
+
+    Spec( WhenIAssignTheFirstToTheSecond )
+    {
+        Assert::That( target->c_str(), Equals( source->c_str() ) );
+    }
+
+    Spec( ThenMySecondStringShouldStillBeSeparateInstances )
+    {
+        Assert::That( ( int ) source, !Equals( ( int ) target ) );
+
+    }
+};
 
 /*
 As a String object
@@ -148,7 +229,7 @@ Context( InitializeFromCStr )
     {
         hello = "Hello World";
         cvalue = hello.c_str();
-        received = 0;
+        received = NULL;
 
         received = new String( cvalue );
     }
@@ -166,7 +247,7 @@ Context( InitializeFromCStr )
 
     Spec( WhenIConstructAString )
     {
-        Assert::That( ( int )received, !Equals( 0 ) );
+        Assert::That( ( int )received, !Equals( NULL ) );
     }
 
     Spec( ThenMyStringShouldRepresentTheSameData )
