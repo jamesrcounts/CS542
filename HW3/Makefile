@@ -8,7 +8,7 @@ CC = g++
 INCLUDE = -I ../igloo
 CFLAGS = -O2 -Wall
 SRCS = test.cpp
-CHKFLAGS = -v --inline-suppr --suppress=unmatchedSuppression --enable=all
+CHKFLAGS = -v --inline-suppr --enable=all
 
 all: check 
 
