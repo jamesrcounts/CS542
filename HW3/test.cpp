@@ -39,15 +39,13 @@ public:
 
     int indexOf( char c )
     {
-        char t = 0;
-        int i = 0;
+        char t[2] = {c, 0};
+        return string_index( buf, size(), t, 1 );
+    }
 
-        while ( i < len && t != c )
-        {
-            t = buf[++i];
-        }
-
-        return i == len ? -1 : i;
+    int indexOf( String pattern )
+    {
+        return string_index( buf, size(), pattern.buf, pattern.size() );
     }
 
     String reverse()
@@ -85,19 +83,6 @@ public:
         return buf[index];
     }
 
-
-    static int string_length( const char *source )
-    {
-        int length;
-
-        for ( length = 0; source[length] != 0; ++length )
-        {
-            // do nothing
-        }
-
-        return ++length;
-    }
-
     static char *string_copy( char *target, const char *source, int length )
     {
         if ( target != source )
@@ -111,6 +96,41 @@ public:
         }
 
         return target;
+    }
+
+    static int string_length( const char *source )
+    {
+        int length;
+
+        for ( length = 0; source[length] != 0; ++length )
+        {
+            // do nothing
+        }
+
+        return ++length;
+    }
+
+    static int string_index( const char *text, int text_size,
+                             const char *pattern, int pattern_size )
+    {
+        // Horspool's algorithm without the shift table.
+        int i = 0;
+        int z = text_size - pattern_size;
+
+        while ( i <= z )
+        {
+            char c = text[i + pattern_size - 1];
+
+            if ( pattern[pattern_size - 1] == c &&
+                    memcmp( pattern, text + i, pattern_size - 1 ) == 0 )
+            {
+                return i;
+            }
+
+            i++;
+        }
+
+        return -1;
     }
 
     ~String()
@@ -132,7 +152,6 @@ private:
     }
 
     /*public:
-        int indexOf( String pattern );
         bool operator == ( String s );
         bool operator != ( String s );
         bool operator > ( String s );
@@ -158,6 +177,51 @@ int main()
 
 Context( UsingStringFunctions )
 {
+    Spec( IndexOfMultiplePartialMatches )
+    {
+        String text( "BESS KNEW ABOUT BAOBABS" );
+        String pattern( "BAOBAB" );
+        int x = text.indexOf( pattern );
+        Assert::That( x, Equals( 16 ) );
+    }
+    Spec( IndexOfPartialPatternMatch )
+    {
+        String source( "0ABCDEFG" );
+        String pattern( "CEF" );
+        int x = source.indexOf( pattern );
+        Assert::That( x, Equals( -1 ) );
+    }
+
+    Spec( IndexOfMissingPattern )
+    {
+        String source( "ABCDEFG" );
+        String pattern( "ZZ" );
+        int x = source.indexOf( pattern );
+        Assert::That( x, Equals( -1 ) );
+    }
+
+    Spec( IndexOfPattern )
+    {
+        String source( "ABBACCCADDDD" );
+        String pattern( "BAC" );
+        int x = source.indexOf( pattern );
+        Assert::That( x, Equals( 2 ) );
+    }
+
+    Spec( IndexOfMissingCharacter )
+    {
+        String source( "ABCDEFG" );
+        int x = source.indexOf( 'Z' );
+        Assert::That( x, Equals( -1 ) );
+    }
+
+    Spec( IndexOfCharacter )
+    {
+        String source( "ABCDEFG" );
+        int x = source.indexOf( 'D' );
+        Assert::That( x, Equals( 3 ) );
+    }
+
     Spec( GetReservedString )
     {
         String expected( "olleH" );
@@ -173,12 +237,6 @@ Context( UsingStringFunctions )
         Assert::That( target.size(), Equals( 11 ) );
     }
 
-    Spec( IndexOfCharacter )
-    {
-        String source( "ABCDEFG" );
-        int x = source.indexOf( 'D' );
-        Assert::That( x, Equals( 3 ) );
-    }
 };
 
 Context( UsingStringOperators )
