@@ -83,7 +83,7 @@ public:
         return buf[index];
     }
 
-    bool operator == ( String s )
+    bool operator == ( const String &s ) const
     {
         if ( len == s.len )
         {
@@ -91,6 +91,11 @@ public:
         }
 
         return 0;
+    }
+
+    bool operator != ( const String &s ) const
+    {
+        return !operator==( s );
     }
 
     static char *string_copy( char *target, const char *source, int length )
@@ -162,7 +167,6 @@ private:
     }
 
     /*public:
-        bool operator != ( String s );
         bool operator > ( String s );
         bool operator < ( String s );
         bool operator <= ( String s );
@@ -262,8 +266,8 @@ Context( UsingStringOperators )
     {
         String i( "Hello" );
         String j( "Bye" );
-        bool result = ( i == j );
-        Assert::That( result, Equals( 0 ) );
+        bool result = ( i != j );
+        Assert::That( result, Equals( 1 ) );
     }
 
     Spec( AccessByValidIndex )
