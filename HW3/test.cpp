@@ -37,19 +37,31 @@ public:
         len = s.len;
     }
 
+    int indexOf( char c )
+    {
+        char t = 0;
+        int i = 0;
+
+        while ( i < len && t != c )
+        {
+            t = buf[++i];
+        }
+
+        return i == len ? -1 : i;
+    }
+
     String reverse()
     {
-        char *reversed = new char[len];
-
         int i = 0;
-        int j = len - 2;
+        int j = size() - 1;
+
+        char *reversed = new char[len];
 
         while ( i < len )
         {
             reversed[i++] = buf[j--];
         }
 
-        reversed[len] = 0;
         String *r = new String( reversed );
         return *r;
     }
@@ -120,7 +132,6 @@ private:
     }
 
     /*public:
-        int indexOf( char c );
         int indexOf( String pattern );
         bool operator == ( String s );
         bool operator != ( String s );
@@ -160,6 +171,13 @@ Context( UsingStringFunctions )
     {
         String target( "Test String" );
         Assert::That( target.size(), Equals( 11 ) );
+    }
+
+    Spec( IndexOfCharacter )
+    {
+        String source( "ABCDEFG" );
+        int x = source.indexOf( 'D' );
+        Assert::That( x, Equals( 3 ) );
     }
 };
 
