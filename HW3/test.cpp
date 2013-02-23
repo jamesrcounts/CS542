@@ -8,6 +8,7 @@ Homework 3
 
 #include <igloo/igloo.h>
 #include <arpa/inet.h>
+#include <assert.h>
 #include <errno.h>
 #include <netinet/in.h>
 #include <stdio.h>
@@ -36,6 +37,11 @@ public:
         len = s.len;
     }
 
+    int size()
+    {
+        return len - 1;
+    }
+
     String &operator = ( const String &s )
     {
         buf = string_copy( buf, s.buf, s.len );
@@ -43,6 +49,13 @@ public:
 
         return *this;
     }
+
+    char &operator []( int index )
+    {
+        assert( inBounds( index ) );
+        return buf[index];
+    }
+
 
     static int string_length( const char *source )
     {
@@ -84,11 +97,12 @@ private:
     char *buf;
     int len;
 
+    bool inBounds( int i )
+    {
+        return i >= 0 && i < len;
+    }
+
     /*public:
-        /// Both constructors should construct
-        /// this String from the parameter s
-        char &operator []( int index );
-        int size();
         String reverse(); // does not modify this String
         int indexOf( char c );
         int indexOf( String pattern );
@@ -105,10 +119,6 @@ private:
         void print( ostream &out );
         void read( istream &in );
     private:
-        bool inBounds( int i )
-        {
-            return i >= 0 && i < len;
-        }
         */
 };
 ostream &operator << ( ostream &out, String str );
@@ -119,139 +129,51 @@ int main()
     return TestRunner::RunAllTests();
 }
 
-/*
-As a String object
-I want my assignment operator to do a deep copy
-So that I can get my value by assignment.
-*/
-Context( InitializeByAssignment )
+Context( UsingStringFunctions )
 {
-    String *source;
-    String *target;
-
-    // cppcheck-suppress unusedFunction
-    void SetUp()
+    Spec( GetSize )
     {
-        source = NULL;
-        source = new String( "Hello World" );
-
-        target = NULL;
-        target = new String( "Goodbye" );
-
-        *target = *source;
-    };
-
-    // cppcheck-suppress unusedFunction
-    void TearDown()
-    {
-        delete source;
-        delete target;
-    };
-
-    Spec( GivenAString )
-    {
-        Assert::That( ( int )source, !Equals( NULL ) );
-    }
-
-    Spec( AndGivenASecondString )
-    {
-        Assert::That( ( int )target, !Equals( NULL ) );
-    }
-
-    Spec( WhenIAssignTheFirstToTheSecond )
-    {
-        Assert::That( target->c_str(), Equals( source->c_str() ) );
-    }
-
-    Spec( ThenMySecondStringShouldStillBeSeparateInstances )
-    {
-        Assert::That( ( int ) source, !Equals( ( int ) target ) );
-
+        String target( "Test String" );
+        Assert::That( target.size(), Equals( 11 ) );
     }
 };
 
-/*
-As a String object
-I want to initialize myself from another String
-So that I can be constructed
-*/
-Context( InitializeFromString )
+Context( UsingStringOperators )
 {
-    String *source;
-    String *received;
 
-    // cppcheck-suppress unusedFunction
-    void SetUp()
+    Spec( AccessByValidIndex )
     {
-        source = NULL;
-        source = new String( "Hello World" );
-
-        received = NULL;
-        received = new String( *source );
+        String s( "Hello World" );
+        char c = s[2];
+        Assert::That( c, Equals( 'l' ) );
     }
 
-    // cppcheck-suppress unusedFunction
-    void TearDown()
+    Spec( CopyByAssignment )
     {
-        delete source;
-        delete received;
+        String source( "Hello World" );
+        String target( "Goodbye" );
+
+        target = source;
+
+        Assert::That( target.c_str(), Equals( source.c_str() ) );
+        Assert::That( &target, !Equals( &source ) );
     }
 
-    Spec( GivenAString )
-    {
-        Assert::That( ( int )source, !Equals( NULL ) );
-    }
-
-    Spec( WhenIConstructAString )
-    {
-        Assert::That( ( int )received, !Equals( NULL ) );
-    }
-
-    Spec( ThenMyStringShouldRepresentTheSameData )
-    {
-        Assert::That( received->c_str(), Equals( source->c_str() ) );
-    }
 };
 
-/*
-As a String object
-I want to initialize myself from a CStr
-So that I can be constructed
-*/
-Context( InitializeFromCStr )
+Context( StringConstructors )
 {
-    string hello;
-    const char *cvalue;
-    String *received;
-
-    // cppcheck-suppress unusedFunction
-    void SetUp()
+    Spec( CopyString )
     {
-        hello = "Hello World";
-        cvalue = hello.c_str();
-        received = NULL;
-
-        received = new String( cvalue );
+        String source( "Hello World" );
+        String received( source );
+        Assert::That( received.c_str(), Equals( source.c_str() ) );
     }
 
-    // cppcheck-suppress unusedFunction
-    void TearDown()
+    Spec( CopyCStr )
     {
-        delete received;
-    }
-
-    Spec( GivenACStr )
-    {
-        Assert::That( cvalue, Equals( hello ) );
-    }
-
-    Spec( WhenIConstructAString )
-    {
-        Assert::That( ( int )received, !Equals( NULL ) );
-    }
-
-    Spec( ThenMyStringShouldRepresentTheSameData )
-    {
-        Assert::That( received->c_str(), Equals( hello ) );
+        const char *source = "Hello World";
+        String received( source );
+        Assert::That( received.c_str(), Equals( source ) );
     }
 };
