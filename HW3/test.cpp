@@ -83,6 +83,16 @@ public:
         return buf[index];
     }
 
+    bool operator == ( String s )
+    {
+        if ( len == s.len )
+        {
+            return memcmp( buf, s.buf, len ) == 0;
+        }
+
+        return 0;
+    }
+
     static char *string_copy( char *target, const char *source, int length )
     {
         if ( target != source )
@@ -152,7 +162,6 @@ private:
     }
 
     /*public:
-        bool operator == ( String s );
         bool operator != ( String s );
         bool operator > ( String s );
         bool operator < ( String s );
@@ -241,6 +250,21 @@ Context( UsingStringFunctions )
 
 Context( UsingStringOperators )
 {
+    Spec( CompareEquivalentInstances )
+    {
+        String i( "Hello" );
+        String j( "Hello" );
+        bool result = ( i == j );
+        Assert::That( result, Equals( 1 ) );
+    }
+
+    Spec( CompareDifferentInstances )
+    {
+        String i( "Hello" );
+        String j( "Bye" );
+        bool result = ( i == j );
+        Assert::That( result, Equals( 0 ) );
+    }
 
     Spec( AccessByValidIndex )
     {
