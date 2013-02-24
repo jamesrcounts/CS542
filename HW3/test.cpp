@@ -120,7 +120,6 @@ public:
         return !operator<( s );
     }
 
-
     bool operator < ( const String &s ) const
     {
         return !operator>( s ) && !operator==( s );
@@ -129,6 +128,20 @@ public:
     bool operator <= ( const String &s ) const
     {
         return !operator>( s );
+    }
+
+    String &operator + ( const String &s ) const
+    {
+        char *t = new char[len + s.len - 1];
+
+        memcpy( t, buf, len - 1 );
+        memcpy( t + ( len - 1 ), s.buf, s.len );
+
+        String *u =  new String( t );
+
+        delete[] t;
+
+        return *u;
     }
 
     static char *string_copy( char *target, const char *source, int length )
@@ -200,8 +213,6 @@ private:
     }
 
     /*public:
-        /// concatenates this and s to return result
-        String operator + ( String s );
         /// concatenates s onto end of this
         String operator += ( String s );
         void print( ostream &out );
@@ -219,7 +230,6 @@ int main()
 
 Context( UsingStringFunctions )
 {
-
     Spec( IndexOfMultiplePartialMatches )
     {
         String text( "BESS KNEW ABOUT BAOBABS" );
@@ -284,6 +294,15 @@ Context( UsingStringFunctions )
 
 Context( UsingStringOperators )
 {
+    Spec( ConcatenateWithPlus )
+    {
+        String hello( "Hello" );
+        String space( " " );
+        String world( "World" );
+        String hello_world = hello + space + world;
+        Assert::That( hello_world.c_str(), Equals( "Hello World" ) );
+    }
+
     Spec( LeftLessThanOrEqualToRight )
     {
         String i( "Hellp" );
