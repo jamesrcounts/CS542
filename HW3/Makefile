@@ -7,10 +7,16 @@
 CC = g++
 INCLUDE = -I ../igloo
 CFLAGS = -O2 -Wall -fno-strict-overflow
-SRCS = test.cpp String.h String.cpp
+SRCS = test.cpp String.h String.cpp hw3.cpp
 CHKFLAGS = -v --inline-suppr --enable=all
 
-all: check 
+all: hw3
+
+run: hw3
+	./hw3
+
+hw3: check hw3.cpp String.o
+	$(CC) $(INCLUDE) hw3.cpp String.o -o hw3 $(CFLAGS)
 
 runtest: test
 	./test

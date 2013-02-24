@@ -37,25 +37,34 @@ void String::read( istream &in )
     int result_size = 0;
     char *result = new char[result_size];
 
-    while ( in )
+    while ( in.good() )
     {
-        in.read( buffer, buf_size );
-        int i = in.gcount();
+        in.get( buffer, buf_size );
+        int last_read = in.gcount();
 
-        if ( i )
+        if ( last_read )
         {
             char *t = result;
-            result = new char[result_size + i];
+            result = new char[result_size + last_read];
             memcpy( result, t, result_size );
-            memcpy( result + result_size, buffer, i );
-            result_size += i;
+            memcpy( result + result_size, buffer, last_read );
+            result_size += last_read;
             delete[] t;
         }
     }
 
-    delete[] buffer;
+    char terminator[1] = {0};
+    char *s = result;
+    result = new char[result_size + 1];
+    memcpy( result, s, result_size );
+    memcpy( result + result_size, terminator, 1 );
+    ++result_size;
+    delete[] s;
+
     buf = string_copy( buf, result, result_size );
     len = result_size;
+
+    delete[] result;
 }
 
 String String::reverse()
