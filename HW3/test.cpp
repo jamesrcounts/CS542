@@ -115,6 +115,12 @@ public:
         return 0;
     }
 
+    bool operator >= ( const String &s )const
+    {
+        return !operator<( s );
+    }
+
+
     bool operator < ( const String &s ) const
     {
         return !operator>( s ) && !operator==( s );
@@ -190,7 +196,6 @@ private:
 
     /*public:
         bool operator <= ( String s );
-        bool operator >= ( String s );
         /// concatenates this and s to return result
         String operator + ( String s );
         /// concatenates s onto end of this
@@ -275,6 +280,16 @@ Context( UsingStringFunctions )
 
 Context( UsingStringOperators )
 {
+    Spec( LeftGreaterThanOrEqualToRight )
+    {
+        String i( "Hellp" );
+        String j( "Hello" );
+        String k( "Hello" );
+        Assert::That( i >= j, Equals( 1 ) );
+        Assert::That( j >= k, Equals( 1 ) );
+        Assert::That( j >= i, Equals( 0 ) );
+    }
+
     Spec( LeftLessThanRightByLength )
     {
         String i( "Hello" );
