@@ -144,6 +144,15 @@ public:
         return *u;
     }
 
+    String &operator += ( const String &s )
+    {
+        String t = *this + s;
+
+        buf = string_copy( buf, t.buf, t.len );
+        len = t.len;
+        return *this;
+    }
+
     static char *string_copy( char *target, const char *source, int length )
     {
         if ( target != source )
@@ -213,8 +222,6 @@ private:
     }
 
     /*public:
-        /// concatenates s onto end of this
-        String operator += ( String s );
         void print( ostream &out );
         void read( istream &in );
     private:
@@ -294,6 +301,15 @@ Context( UsingStringFunctions )
 
 Context( UsingStringOperators )
 {
+    Spec( ConcatenateWithPlusEqual )
+    {
+        String hello( "Hello" );
+        String space( " " );
+        String world( "World" );
+        hello += space += world;
+        Assert::That( hello.c_str(), Equals( "Hello World" ) );
+    }
+
     Spec( ConcatenateWithPlus )
     {
         String hello( "Hello" );
