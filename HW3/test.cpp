@@ -11,6 +11,7 @@ Homework 3
 #include <assert.h>
 #include <errno.h>
 #include <netinet/in.h>
+#include <sstream>
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>
@@ -48,6 +49,39 @@ public:
         return string_index( buf, size(), pattern.buf, pattern.size() );
     }
 
+    void print( ostream &out )
+    {
+        out << buf;
+    }
+
+    void read( istream &in )
+    {
+        int buf_size = 1024;
+        char *buffer = new char[buf_size];
+        int result_size = 0;
+        char *result = new char[result_size];
+
+        while ( in )
+        {
+            in.read( buffer, buf_size );
+            int i = in.gcount();
+
+            if ( i )
+            {
+                char *t = result;
+                result = new char[result_size + i];
+                memcpy( result, t, result_size );
+                memcpy( result + result_size, buffer, i );
+                result_size += i;
+                delete[] t;
+            }
+        }
+
+        delete[] buffer;
+        buf = string_copy( buf, result, result_size );
+        len = result_size;
+    }
+
     String reverse()
     {
         int i = 0;
@@ -67,6 +101,16 @@ public:
     int size()
     {
         return len - 1;
+    }
+
+    const char *c_str()
+    {
+        return buf;
+    }
+
+    ~String()
+    {
+        delete[] buf;
     }
 
     String &operator = ( const String &s )
@@ -132,13 +176,8 @@ public:
 
     String &operator + ( const String &s ) const
     {
-        char *t = new char[len + s.len - 1];
-
-        memcpy( t, buf, len - 1 );
-        memcpy( t + ( len - 1 ), s.buf, s.len );
-
+        char *t = string_cat( buf, len, s.buf, s.len );
         String *u =  new String( t );
-
         delete[] t;
 
         return *u;
@@ -151,6 +190,17 @@ public:
         buf = string_copy( buf, t.buf, t.len );
         len = t.len;
         return *this;
+    }
+
+    static char *string_cat( const char *left, int left_size,
+                             const char *right, int right_size )
+    {
+        char *t = new char[left_size + right_size - 1];
+
+        memcpy( t, left, left_size - 1 );
+        memcpy( t + ( left_size - 1 ), right, right_size );
+
+        return t;
     }
 
     static char *string_copy( char *target, const char *source, int length )
@@ -203,15 +253,6 @@ public:
         return -1;
     }
 
-    ~String()
-    {
-        delete[] buf;
-    }
-
-    const char *c_str()
-    {
-        return buf;
-    }
 private:
     char *buf;
     int len;
@@ -220,13 +261,8 @@ private:
     {
         return i >= 0 && i < len;
     }
-
-    /*public:
-        void print( ostream &out );
-        void read( istream &in );
-    private:
-        */
 };
+
 ostream &operator << ( ostream &out, String str );
 istream &operator >> ( istream &in, String &str );
 
@@ -237,6 +273,22 @@ int main()
 
 Context( UsingStringFunctions )
 {
+    Spec( ReadString )
+    {
+        stringstream in( "Hello World" );
+        String text( "Goodbye" );
+        text.read( in );
+        Assert::That( text.c_str(), Equals( "Hello World" ) );
+    }
+
+    Spec( PrintString )
+    {
+        String text( "Hello World" );
+        stringstream out;
+        text.print( out );
+        Assert::That( out.str(), Equals( "Hello World" ) );
+    }
+
     Spec( IndexOfMultiplePartialMatches )
     {
         String text( "BESS KNEW ABOUT BAOBABS" );
