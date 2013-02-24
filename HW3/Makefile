@@ -7,7 +7,7 @@
 CC = g++
 INCLUDE = -I ../igloo
 CFLAGS = -O2 -Wall -fno-strict-overflow
-SRCS = test.cpp
+SRCS = test.cpp String.h String.cpp
 CHKFLAGS = -v --inline-suppr --enable=all
 
 all: check 
@@ -15,14 +15,11 @@ all: check
 runtest: test
 	./test
 
-test: test.cpp format
-	$(CC) $(INCLUDE) test.cpp -o test $(CFLAGS)	
+test: String.o test.cpp format
+	$(CC) $(INCLUDE) test.cpp String.o -o test $(CFLAGS)	
 
-server.o: 
-	$(CC) $(INCLUDE) -c server.h $(CFLAGS)
-
-object: 
-	$(CC) -c LinkedStack.h LinkedStack.cpp $(CFLAGS)
+String.o: String.h String.cpp
+	$(CC) $(INCLUDE) -c String.cpp $(CFLAGS)
 
 format: 
 	astyle -YfDHUbps4yj -k3 $(SRCS)
