@@ -263,8 +263,17 @@ private:
     }
 };
 
-ostream &operator << ( ostream &out, String str );
-istream &operator >> ( istream &in, String &str );
+ostream &operator << ( ostream &out, String str )
+{
+    str.print( out );
+    return out;
+}
+
+istream &operator >> ( istream &in, String &str )
+{
+    str.read( in );
+    return in;
+}
 
 int main()
 {
@@ -353,6 +362,22 @@ Context( UsingStringFunctions )
 
 Context( UsingStringOperators )
 {
+    Spec( InsertionOperator )
+    {
+        String text( "Goodbye" );
+        stringstream in( "Hello World" );
+        in >> text;
+        Assert::That( text.c_str(), Equals( "Hello World" ) );
+    }
+
+    Spec( ExtractionOperator )
+    {
+        String text( "Hello World" );
+        stringstream out;
+        out << text;
+        Assert::That( out.str(), Equals( "Hello World" ) );
+    }
+
     Spec( ConcatenateWithPlusEqual )
     {
         String hello( "Hello" );
