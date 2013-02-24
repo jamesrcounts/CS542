@@ -126,6 +126,11 @@ public:
         return !operator>( s ) && !operator==( s );
     }
 
+    bool operator <= ( const String &s ) const
+    {
+        return !operator>( s );
+    }
+
     static char *string_copy( char *target, const char *source, int length )
     {
         if ( target != source )
@@ -195,7 +200,6 @@ private:
     }
 
     /*public:
-        bool operator <= ( String s );
         /// concatenates this and s to return result
         String operator + ( String s );
         /// concatenates s onto end of this
@@ -280,6 +284,16 @@ Context( UsingStringFunctions )
 
 Context( UsingStringOperators )
 {
+    Spec( LeftLessThanOrEqualToRight )
+    {
+        String i( "Hellp" );
+        String j( "Hello" );
+        String k( "Hello" );
+        Assert::That( j <= i, Equals( 1 ) );
+        Assert::That( j <= k, Equals( 1 ) );
+        Assert::That( i <= j, Equals( 0 ) );
+    }
+
     Spec( LeftGreaterThanOrEqualToRight )
     {
         String i( "Hellp" );
