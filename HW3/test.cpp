@@ -43,6 +43,7 @@ Context( UsingStringFunctions )
         int x = text.indexOf( pattern );
         Assert::That( x, Equals( 16 ) );
     }
+
     Spec( IndexOfPartialPatternMatch )
     {
         String source( "0ABCDEFG" );
@@ -154,68 +155,33 @@ Context( UsingStringOperators )
         Assert::That( j >= i, Equals( 0 ) );
     }
 
-    Spec( LeftLessThanRightByLength )
-    {
-        String i( "Hello" );
-        String j( "Hello World" );
-        bool result = i < j;
-        Assert::That( result, Equals( 1 ) );
-    }
-
-    Spec( LeftLessThanRight )
-    {
-        String i( "Hello" );
-        String j( "Hellp" );
-        bool result = i < j;
-        Assert::That( result, Equals( 1 ) );
-    }
-
-    Spec( LeftNotLessThanRight )
+    Spec( LessThan )
     {
         String i( "Hello" );
         String j( "Hello" );
-        bool result = i < j;
-        Assert::That( result, Equals( 0 ) );
+        String k( "Hellp" );
+        Assert::That( i < j, Equals( 0 ) );
+        Assert::That( i < k, Equals( 1 ) );
     }
 
-    Spec( LeftGreaterThanRightByLength )
-    {
-        String i( "Hello World" );
-        String j( "Hello" );
-        bool result = i > j;
-        Assert::That( result, Equals( 1 ) );
-    }
-
-    Spec( LeftGreaterThanRight )
-    {
-        String i( "Hellp" );
-        String j( "Hello" );
-        bool result = i > j;
-        Assert::That( result, Equals( 1 ) );
-    }
-
-    Spec( LeftNotGreaterThanRight )
+    Spec( GreaterThan )
     {
         String i( "Hello" );
         String j( "Hello" );
-        bool result = i > j;
-        Assert::That( result, Equals( 0 ) );
+        String k( "Hellp" );
+        Assert::That( i > j, Equals( 0 ) );
+        Assert::That( k > i, Equals( 1 ) );
     }
 
-    Spec( CompareEquivalentInstances )
+    Spec( Equality )
     {
         String i( "Hello" );
         String j( "Hello" );
-        bool result = ( i == j );
-        Assert::That( result, Equals( 1 ) );
-    }
-
-    Spec( CompareDifferentInstances )
-    {
-        String i( "Hello" );
-        String j( "Bye" );
-        bool result = ( i != j );
-        Assert::That( result, Equals( 1 ) );
+        String k( "Bye" );
+        Assert::That( i == j, Equals( 1 ) );
+        Assert::That( i == k, Equals( 0 ) );
+        Assert::That( i != k, Equals( 1 ) );
+        Assert::That( i != j, Equals( 0 ) );
     }
 
     Spec( AccessByValidIndex )
