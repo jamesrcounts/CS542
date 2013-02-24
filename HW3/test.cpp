@@ -98,6 +98,23 @@ public:
         return !operator==( s );
     }
 
+    bool operator > ( const String &s ) const
+    {
+        int i = 0;
+
+        while ( i < len && i < s.len )
+        {
+            if ( buf[i] != s.buf[i] )
+            {
+                return buf[i] > s.buf[i];
+            }
+
+            ++i;
+        }
+
+        return 0;
+    }
+
     static char *string_copy( char *target, const char *source, int length )
     {
         if ( target != source )
@@ -167,7 +184,6 @@ private:
     }
 
     /*public:
-        bool operator > ( String s );
         bool operator < ( String s );
         bool operator <= ( String s );
         bool operator >= ( String s );
@@ -190,6 +206,7 @@ int main()
 
 Context( UsingStringFunctions )
 {
+
     Spec( IndexOfMultiplePartialMatches )
     {
         String text( "BESS KNEW ABOUT BAOBABS" );
@@ -254,6 +271,30 @@ Context( UsingStringFunctions )
 
 Context( UsingStringOperators )
 {
+    Spec( LeftGreaterThanRightByLength )
+    {
+        String i( "Hello World" );
+        String j( "Hello" );
+        bool result = i > j;
+        Assert::That( result, Equals( 1 ) );
+    }
+
+    Spec( LeftGreaterThanRight )
+    {
+        String i( "Hellp" );
+        String j( "Hello" );
+        bool result = i > j;
+        Assert::That( result, Equals( 1 ) );
+    }
+
+    Spec( LeftNotGreaterThanRight )
+    {
+        String i( "Hello" );
+        String j( "Hello" );
+        bool result = i > j;
+        Assert::That( result, Equals( 0 ) );
+    }
+
     Spec( CompareEquivalentInstances )
     {
         String i( "Hello" );
