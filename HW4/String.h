@@ -37,12 +37,13 @@ private:
     };
     ListNode *head;
 
-    int len; // deprecated
-    char *buf;  // deprecated
-    const char *c_str(); // deprecated
-
     static ListNode *append_buffer( const ListNode *left, const ListNode *right )
     {
+        if ( left == NULL )
+        {
+            return copy_buffer( right );
+        }
+
         if ( left->next == NULL )
         {
             ListNode *t;
@@ -63,15 +64,16 @@ private:
         return new ListNode( source->info, copy_buffer( source->next ) );
     }
 
-    static void free_buffer( ListNode *c )
+    static ListNode *free_buffer( ListNode *c )
     {
-        if ( c == NULL )
+        for ( ListNode *it = c; it != NULL; )
         {
-            return;
+            c = it;
+            it = it->next;
+            delete c;
         }
 
-        free_buffer( c->next );
-        delete c;
+        return NULL;
     }
 
 
@@ -84,13 +86,6 @@ private:
 
         return new ListNode( source[0], make_buffer( source + 1 ) );
     }
-
-    static char *string_cat( const char *left, int left_size,
-                             const char *right, int right_size );
-    static char *string_copy( char *target, const char *source, int length );
-    static int string_length( const char *source );
-    static int string_index( const char *text, int text_size,
-                             const char *pattern, int pattern_size );
 };
 
 ostream &operator << ( ostream &out, String str );

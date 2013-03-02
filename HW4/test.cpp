@@ -32,7 +32,6 @@ Context( UsingStringFunctions )
         String text( "Goodbye" );
         String expected( "Hello World" );
         text.read( in );
-        cout << "read" << endl;
         Assert::That( text, Equals( expected ) );
     }
 
