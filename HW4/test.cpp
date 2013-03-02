@@ -20,12 +20,20 @@ int main()
 
 Context( UsingStringFunctions )
 {
+    Spec( Length )
+    {
+        String s( "Hello" );
+        Assert::That( s.length(), Equals( 5 ) );
+    }
+
     Spec( ReadString )
     {
         stringstream in( "Hello World" );
         String text( "Goodbye" );
+        String expected( "Hello World" );
         text.read( in );
-        Assert::That( text.c_str(), Equals( "Hello World" ) );
+        cout << "read" << endl;
+        Assert::That( text, Equals( expected ) );
     }
 
     Spec( PrintString )
@@ -34,38 +42,6 @@ Context( UsingStringFunctions )
         stringstream out;
         text.print( out );
         Assert::That( out.str(), Equals( "Hello World" ) );
-    }
-
-    Spec( IndexOfMultiplePartialMatches )
-    {
-        String text( "BESS KNEW ABOUT BAOBABS" );
-        String pattern( "BAOBAB" );
-        int x = text.indexOf( pattern );
-        Assert::That( x, Equals( 16 ) );
-    }
-
-    Spec( IndexOfPartialPatternMatch )
-    {
-        String source( "0ABCDEFG" );
-        String pattern( "CEF" );
-        int x = source.indexOf( pattern );
-        Assert::That( x, Equals( -1 ) );
-    }
-
-    Spec( IndexOfMissingPattern )
-    {
-        String source( "ABCDEFG" );
-        String pattern( "ZZ" );
-        int x = source.indexOf( pattern );
-        Assert::That( x, Equals( -1 ) );
-    }
-
-    Spec( IndexOfPattern )
-    {
-        String source( "ABBACCCADDDD" );
-        String pattern( "BAC" );
-        int x = source.indexOf( pattern );
-        Assert::That( x, Equals( 2 ) );
     }
 
     Spec( IndexOfMissingCharacter )
@@ -81,22 +57,6 @@ Context( UsingStringFunctions )
         int x = source.indexOf( 'D' );
         Assert::That( x, Equals( 3 ) );
     }
-
-    Spec( GetReservedString )
-    {
-        String expected( "olleH" );
-        String source( "Hello" );
-        String received = source.reverse();
-        Assert::That( received.c_str(), Equals( expected.c_str() ) );
-        Assert::That( source.c_str(), Equals( "Hello" ) );
-    }
-
-    Spec( GetSize )
-    {
-        String target( "Test String" );
-        Assert::That( target.size(), Equals( 11 ) );
-    }
-
 };
 
 Context( UsingStringOperators )
@@ -106,7 +66,7 @@ Context( UsingStringOperators )
         String text( "Goodbye" );
         stringstream in( "Hello World" );
         in >> text;
-        Assert::That( text.c_str(), Equals( "Hello World" ) );
+        Assert::That( text, Equals( String( "Hello World" ) ) );
     }
 
     Spec( ExtractionOperator )
@@ -123,7 +83,7 @@ Context( UsingStringOperators )
         String space( " " );
         String world( "World" );
         hello += space += world;
-        Assert::That( hello.c_str(), Equals( "Hello World" ) );
+        Assert::That( hello, Equals( String( "Hello World" ) ) );
     }
 
     Spec( ConcatenateWithPlus )
@@ -132,45 +92,7 @@ Context( UsingStringOperators )
         String space( " " );
         String world( "World" );
         String hello_world = hello + space + world;
-        Assert::That( hello_world.c_str(), Equals( "Hello World" ) );
-    }
-
-    Spec( LeftLessThanOrEqualToRight )
-    {
-        String i( "Hellp" );
-        String j( "Hello" );
-        String k( "Hello" );
-        Assert::That( j <= i, Equals( 1 ) );
-        Assert::That( j <= k, Equals( 1 ) );
-        Assert::That( i <= j, Equals( 0 ) );
-    }
-
-    Spec( LeftGreaterThanOrEqualToRight )
-    {
-        String i( "Hellp" );
-        String j( "Hello" );
-        String k( "Hello" );
-        Assert::That( i >= j, Equals( 1 ) );
-        Assert::That( j >= k, Equals( 1 ) );
-        Assert::That( j >= i, Equals( 0 ) );
-    }
-
-    Spec( LessThan )
-    {
-        String i( "Hello" );
-        String j( "Hello" );
-        String k( "Hellp" );
-        Assert::That( i < j, Equals( 0 ) );
-        Assert::That( i < k, Equals( 1 ) );
-    }
-
-    Spec( GreaterThan )
-    {
-        String i( "Hello" );
-        String j( "Hello" );
-        String k( "Hellp" );
-        Assert::That( i > j, Equals( 0 ) );
-        Assert::That( k > i, Equals( 1 ) );
+        Assert::That( hello_world, Equals( String( "Hello World" ) ) );
     }
 
     Spec( Equality )
@@ -180,8 +102,6 @@ Context( UsingStringOperators )
         String k( "Bye" );
         Assert::That( i == j, Equals( 1 ) );
         Assert::That( i == k, Equals( 0 ) );
-        Assert::That( i != k, Equals( 1 ) );
-        Assert::That( i != j, Equals( 0 ) );
     }
 
     Spec( AccessByValidIndex )
@@ -198,7 +118,7 @@ Context( UsingStringOperators )
 
         target = source;
 
-        Assert::That( target.c_str(), Equals( source.c_str() ) );
+        Assert::That( target, Equals( source ) );
         Assert::That( &target, !Equals( &source ) );
     }
 
@@ -210,13 +130,15 @@ Context( StringConstructors )
     {
         String source( "Hello World" );
         String received( source );
-        Assert::That( received.c_str(), Equals( source.c_str() ) );
+        Assert::That( received, Equals( source ) );
     }
 
     Spec( CopyCStr )
     {
         const char *source = "Hello World";
         String received( source );
-        Assert::That( received.c_str(), Equals( source ) );
+        stringstream out;
+        out << received;
+        Assert::That( out.str() , Equals( source ) );
     }
 };

@@ -1,33 +1,51 @@
 #include "String.h"
 
-String::String( const char *s )
+String::String( const char *s ): head( NULL ), len( 0 ), buf( NULL )
 {
-    buf = NULL;
-    len = string_length( s );
-    buf = string_copy( buf, s, len );
+    head = make_buffer( s );
 }
 
-String::String( const String &s )
+String::String( const String &s ): head( NULL ), len( 0 ), buf( NULL )
 {
-    buf = NULL;
-    buf = string_copy( buf, s.buf, s.len );
-    len = s.len;
+    head = copy_buffer( s.head );
 }
 
-int String::indexOf( char c )
+int String::length() const
 {
-    char t[2] = {c, 0};
-    return string_index( buf, size(), t, 1 );
+    int i = 0;
+
+    for ( ListNode *it = head; it != NULL; it = it->next )
+    {
+        ++i;
+    }
+
+    return i;
 }
 
-int String::indexOf( String pattern )
+int String::indexOf( const char c ) const
 {
-    return string_index( buf, size(), pattern.buf, pattern.size() );
+    int i = 0;
+
+    for ( ListNode *it = head; it != NULL; it = it->next )
+    {
+
+        if ( it->info == c )
+        {
+            return i;
+        }
+
+        ++i;
+    }
+
+    return -1;
 }
 
 void String::print( ostream &out )
 {
-    out << buf;
+    for ( ListNode *it = head; it != NULL; it = it->next )
+    {
+        out.put( it->info );
+    }
 }
 
 void String::read( istream &in )
@@ -61,36 +79,11 @@ void String::read( istream &in )
     ++result_size;
     delete[] s;
 
-    buf = string_copy( buf, result, result_size );
-    len = result_size;
+    ListNode *b = make_buffer( result );
+    free_buffer( head );
+    head = b;
 
     delete[] result;
-}
-
-String String::reverse()
-{
-    int i = 0;
-    int j = size() - 1;
-
-    char *reversed = new char[len];
-
-    while ( i < len )
-    {
-        reversed[i++] = buf[j--];
-    }
-
-    String *r = new String( reversed );
-    return *r;
-}
-
-int String::size()
-{
-    return len - 1;
-}
-
-const char *String::c_str()
-{
-    return buf;
 }
 
 String::~String()
@@ -103,69 +96,46 @@ String &String::operator = ( const String &s )
     buf = string_copy( buf, s.buf, s.len );
     len = s.len;
 
+    ListNode *t = copy_buffer( s.head );
+    free_buffer( head );
+    head = t;
+
     return *this;
 }
 
 char &String::operator []( int index )
 {
     assert( inBounds( index ) );
-    return buf[index];
+    ListNode *t = head;
+
+    for ( int i = index; 0 <= i; --i )
+    {
+        t = t->next;
+    }
+
+    return t->info;
 }
 
 bool String::operator == ( const String &s ) const
 {
-    if ( len == s.len )
+    ListNode *self ;
+    ListNode *other ;
+
+    for ( self = head, other = s.head;
+            self != NULL && other != NULL && self->info == other->info;
+            self = self->next, other = other->next )
     {
-        return memcmp( buf, s.buf, len ) == 0;
     }
 
-    return 0;
-}
-
-bool String::operator != ( const String &s ) const
-{
-    return !operator==( s );
-}
-
-bool String::operator > ( const String &s ) const
-{
-    int i = 0;
-
-    while ( i < len && i < s.len )
-    {
-        if ( buf[i] != s.buf[i] )
-        {
-            return buf[i] > s.buf[i];
-        }
-
-        ++i;
-    }
-
-    return 0;
-}
-
-bool String::operator >= ( const String &s )const
-{
-    return !operator<( s );
-}
-
-bool String::operator < ( const String &s ) const
-{
-    return !operator>( s ) && !operator==( s );
-}
-
-bool String::operator <= ( const String &s ) const
-{
-    return !operator>( s );
+    return self == other;
 }
 
 String &String::operator + ( const String &s ) const
 {
-    char *t = string_cat( buf, len, s.buf, s.len );
-    String *u =  new String( t );
-    delete[] t;
-
-    return *u;
+    ListNode *v = append_buffer( head, s.head );
+    String *w = new String();
+    w->head = v;
+    return *w;
 }
 
 String &String::operator += ( const String &s )
@@ -174,8 +144,11 @@ String &String::operator += ( const String &s )
 
     buf = string_copy( buf, t.buf, t.len );
     len = t.len;
+    head = t.head;
     return *this;
 }
+
+
 
 char *String::string_cat( const char *left, int left_size,
                           const char *right, int right_size )
@@ -240,7 +213,7 @@ int String::string_index( const char *text, int text_size,
 
 bool String::inBounds( int i )
 {
-    return i >= 0 && i < len;
+    return i >= 0 && i < length();
 }
 
 ostream &operator << ( ostream &out, String str )

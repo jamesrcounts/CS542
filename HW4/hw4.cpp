@@ -59,38 +59,6 @@ int main()
     cout << "blank is unchanged: " << blank << endl;
     cout << "counts is unchanged: " << counts << endl;
 
-    cout << "Less than or equal... " << endl;
-    cout << jim << " <= " << counts << "... ";
-    cout << ( jim <= counts ? "true" : "false" ) << endl;
-    cout << jim << " <= " << jim << "... ";
-    cout << ( jim <= jim ? "true" : "false" ) << endl;
-    cout << counts << " <= " << jim << "... ";
-    cout << ( counts <= jim ? "true" : "false" ) << endl;
-
-    cout << "Less than... " << endl;
-    cout << jim << " < " << counts << "... ";
-    cout << ( jim < counts ? "true" : "false" ) << endl;
-    cout << jim << " < " << jim << "... ";
-    cout << ( jim < jim ? "true" : "false" ) << endl;
-    cout << counts << " < " << jim << "... ";
-    cout << ( counts < jim ? "true" : "false" ) << endl;
-
-    cout << "Greater than or equal... " << endl;
-    cout << jim << " >= " << counts << "... ";
-    cout << ( jim >= counts ? "true" : "false" ) << endl;
-    cout << jim << " >= " << jim << "... ";
-    cout << ( jim <= jim ? "true" : "false" ) << endl;
-    cout << counts << " >= " << jim << "... ";
-    cout << ( counts >= jim ? "true" : "false" ) << endl;
-
-    cout << "Greater than... " << endl;
-    cout << jim << " > " << counts << "... ";
-    cout << ( jim > counts ? "true" : "false" ) << endl;
-    cout << jim << " > " << jim << "... ";
-    cout << ( jim > jim ? "true" : "false" ) << endl;
-    cout << counts << " > " << jim << "... ";
-    cout << ( counts  > jim ? "true" : "false" ) << endl;
-
     cout << "Equality... " << endl;
     cout << jim << " == " << counts << "... ";
     cout << ( jim == counts ? "true" : "false" ) << endl;
@@ -108,23 +76,10 @@ int main()
     cout << endl << "Functions" << endl;
 
     String text( "BESS KNEW ABOUT BAOBABS" );
-    String pattern( "BAOBAB" );
-    cout << "String.indexOf (pattern)" << endl;
-    cout << "TEXT: " << text << endl;
-    cout << "PATTERN: " << pattern << endl;
-    cout << "PATTERN found at... " << text.indexOf( pattern ) << endl;
-
     cout << "String.indexOf (char)" << endl;
     cout << "TEXT: " << text << endl;
     cout << "CHAR: 'U'" << endl;
     cout << "CHAR found at... " << text.indexOf( 'U' ) << endl;
-
-    cout << "String.reverse" << endl;
-    cout << "hello.reverse()... " << hello.reverse() << endl;
-    cout << "hello is unchanged... " << hello << endl;
-
-    cout << "String.size" << endl;
-    cout << "hello.size()... " << hello.size() << endl;
 
     cout << "Done with demonstration." << endl;
 
