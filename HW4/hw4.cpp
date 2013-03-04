@@ -9,7 +9,7 @@ int main()
 {
     cout << "Jim Counts" << endl;
     cout << "CS 542 - OO" << endl;
-    cout << "Homework 3" << endl << endl;
+    cout << "Homework 4" << endl << endl;
 
     cout << "Demonstrate String functionality:" << endl;
 
