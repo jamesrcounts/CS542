@@ -5,78 +5,13 @@
 #include <sstream>
 #include <string>
 
+#include "Animal.h"
+#include "Snake.h"
+#include "Horse.h"
+#include "Alien.h"
+
 using namespace std;
 using namespace igloo;
-
-class Animal
-{
-private:
-    ostream *logger;
-protected:
-    int stride;
-    void WriteToLog( string message )
-    {
-        *logger << message;
-    }
-    Animal():  logger( &cout ), stride( 1 ) {}
-public:
-    virtual ~Animal() {};
-    virtual void Move() = 0;
-    void UseSpy( ostream &spy )
-    {
-        logger = &spy;
-    }
-};
-
-class Snake : public Animal
-{
-public:
-    Snake()
-    {
-        stride = 5;
-    }
-    ~Snake() {}
-    void Move()
-    {
-        stringstream buffer;
-        buffer << "Slithering... " << stride << "m." << endl;
-        WriteToLog( buffer.str() );
-    }
-
-};
-
-class Horse : public Animal
-{
-public:
-    Horse()
-    {
-        stride = 45;
-    }
-
-    void Move()
-    {
-        stringstream buffer;
-        buffer << "Galloping... " << stride << "m." << endl;
-        WriteToLog( buffer.str() );
-    }
-
-};
-
-class Alien : public Animal
-{
-public:
-    Alien()
-    {
-        stride = 1000;
-    }
-
-    void Move()
-    {
-        stringstream buffer;
-        buffer << "Teleporting... " << stride << "ly." << endl;
-        WriteToLog( buffer.str() );
-    }
-};
 
 Context( DescribeASnake )
 {
