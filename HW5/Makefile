@@ -15,8 +15,8 @@ all: runtest
 run: hw5
 	./hw5
 
-hw5: hw5.cpp
-	$(CC) $(INCLUDE) hw5.cpp -o hw5 $(CFLAGS)
+hw5: hw5.cpp Animal.o Alien.o Snake.o Horse.o
+	$(CC) $(INCLUDE) hw5.cpp *.o -o hw5 $(CFLAGS)
 
 Alien.o: Alien.cpp Alien.h
 	$(CC) $(INCLUDE) -c Alien.cpp $(CFLAGS)
