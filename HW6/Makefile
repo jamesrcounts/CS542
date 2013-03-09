@@ -1,43 +1,31 @@
 ###################################
 # Makefile
-# HW 5
+# HW 6
 # CS542 - OO - Spring 2013
 # Jim Counts
 ###################################
 CC = g++
 INCLUDE = -I ../igloo
 CFLAGS = -O2 -Wall -fno-strict-overflow
-SRCS = *.cpp *.h
+SRCS = *.cpp
 CHKFLAGS = -v --inline-suppr --enable=all
 
 all: runtest
 
 clean: 
-	rm -f hw5 test *.o *.orig
+	rm -f hw6 test *.o *.orig
 
-run: hw5
-	./hw5
+run: hw6
+	./hw6
 
-hw5: hw5.cpp Animal.o Alien.o Snake.o Horse.o
-	$(CC) $(INCLUDE) hw5.cpp *.o -o hw5 $(CFLAGS)
-
-Alien.o: Alien.cpp Alien.h
-	$(CC) $(INCLUDE) -c Alien.cpp $(CFLAGS)
-
-Horse.o: Horse.cpp Horse.h
-	$(CC) $(INCLUDE) -c Horse.cpp $(CFLAGS)
-
-Snake.o: Snake.cpp Snake.h
-	$(CC) $(INCLUDE) -c Snake.cpp $(CFLAGS)
-
-Animal.o: Animal.cpp Animal.h
-	$(CC) $(INCLUDE) -c Animal.cpp $(CFLAGS)
+hw6: hw6.cpp
+	$(CC) $(INCLUDE) hw6.cpp -o hw6 $(CFLAGS)
 
 runtest: test
 	./test
 
-test: test.cpp Alien.o Animal.o Snake.o Horse.o format
-	$(CC) $(INCLUDE) test.cpp *.o -o test $(CFLAGS)	
+test: test.cpp format
+	$(CC) $(INCLUDE) test.cpp -o test $(CFLAGS)	
 
 format:
 	astyle -YfDHUbps4yj -k3 $(SRCS)
