@@ -6,14 +6,14 @@
 ###################################
 CC = g++
 INCLUDE = -I ../igloo
-CFLAGS = -O2 -Wall -fno-strict-overflow
-SRCS = *.cpp Array.h
+CFLAGS = -O3 -Wall -fno-strict-overflow
+SRCS = *.cpp *.h
 CHKFLAGS = -v --inline-suppr --enable=all
 
 all: runtest
 
 clean: 
-	rm -f hw6 test *.o *.orig *.gch
+	rm -f hw6 test array_test matrix_test *.o *.orig *.gch
 
 run: hw6
 	./hw6
@@ -21,14 +21,25 @@ run: hw6
 hw6: hw6.cpp Array.h
 	$(CC) $(INCLUDE) hw6.cpp -o hw6 $(CFLAGS)
 
-runtest: test
+runtest: test array_test matrix_test
 	./test
+	./array_test
+	./matrix_test
 
 Array.gch: Array.h
 	$(CC) $(INCLUDE) Array.h $(CFLAGS)
 
-test: test.cpp Array.h Array.gch format
+Matrix.gch: Matrix.h Array.h
+	$(CC) $(INCLUDE) Matrix.h $(CFLAGS)
+
+test: test.cpp Array.h Array.gch Matrix.h Matrix.gch format
 	$(CC) $(INCLUDE) test.cpp -o test $(CFLAGS)	
+
+array_test: array_test.cpp Array.h Array.gch 
+	$(CC) $(INCLUDE) array_test.cpp -o array_test $(CFLAGS)
+
+matrix_test: matrix_test.cpp Array.h Array.gch Matrix.h Matrix.gch 
+	$(CC) $(INCLUDE) matrix_test.cpp -o matrix_test $(CFLAGS)
 
 format:
 	astyle -YfDHUbps4yj -k3 $(SRCS)

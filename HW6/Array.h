@@ -24,6 +24,11 @@ public:
         }
     }
 
+    ~Array()
+    {
+        delete[] buf;
+    }
+
     int length()
     {
         return sz;
