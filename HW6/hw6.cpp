@@ -35,24 +35,20 @@ int main( int argc, char const *argv[] )
     cout << "CS 542 - OO" << endl;
     cout << "Homework 6" << endl << endl;
 
-    Matrix<int> m( 10, 5 );
-    fillMatrix( m );
-    cout << m << endl;
-    Matrix<double> M( 8, 10 );
-    fillMatrix( M );
-    cout << M << endl;
-
-    int i = 0;
-    int j = m.numCols();
-
     try
     {
-        m[0][m.numCols()] = 99;
+        Matrix<int> m( 10, 5 );
+        fillMatrix( m );
+        cout << m << endl;
+        Matrix<double> M( 8, 10 );
+        fillMatrix( M );
+        cout << M << endl;
+
+        M[M.numRows()][0] = 99;
     }
     catch ( exception &e )
     {
-        cout << "Error accessing: " << i << ", " << j << endl <<
-             "Exception: " << e.what() << endl;
+        cout << e.what() << " in main." << endl;
     }
 
     return 0;

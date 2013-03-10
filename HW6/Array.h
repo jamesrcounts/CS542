@@ -12,7 +12,7 @@ class IndexOutOfBoundsException: public exception
 public:
     virtual const char *what() const throw()
     {
-        return "Index is out of bounds.";
+        return "Index is out of bounds";
     }
 } oobex;
 

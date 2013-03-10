@@ -48,7 +48,7 @@ Context( DescribeAnArray )
         InitializeArray( it );
         AssertThrows( IndexOutOfBoundsException, IllegalAssignment( it ) );
         Assert::That( LastException<IndexOutOfBoundsException>().what(),
-                      Equals( "Index is out of bounds." ) );
+                      Equals( "Index is out of bounds" ) );
     }
 
     Spec( ItHasMutableCells )

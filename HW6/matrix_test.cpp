@@ -19,6 +19,11 @@ void InitializeMatrix( Matrix<int> &it )
     }
 }
 
+void IllegalAccess( Matrix<int> &m )
+{
+    m[m.numRows()][0] = 99;
+}
+
 Context( DescribeAMatrix )
 {
     Spec( ItHasFixedRowsAndColumns )
@@ -26,6 +31,15 @@ Context( DescribeAMatrix )
         Matrix<int> it( 5, 10 );
         Assert::That( it.numRows(), Equals( 5 ) );
         Assert::That( it.numCols(), Equals( 10 ) );
+    }
+
+    Spec( ItThrowsExceptionWhenIndexIsOutOfBounds )
+    {
+        Matrix<int> it( 5, 10 );
+        InitializeMatrix( it );
+        AssertThrows( IndexOutOfBoundsException, IllegalAccess( it ) );
+        Assert::That( LastException<IndexOutOfBoundsException>().what(),
+                      Equals( "Index is out of bounds" ) );
     }
 
     Spec( ItsRowsAreComposedOfMutableCells )
