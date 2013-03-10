@@ -1,22 +1,12 @@
 /* hw6.cpp */
 
 #include <iostream>
+#include "Matrix.h"
 
 using namespace std;
 
-int main( int argc, char const *argv[] )
-{
-    cout << "Jim Counts" << endl;
-    cout << "CS 542 - OO" << endl;
-    cout << "Homework 6" << endl << endl;
-
-
-    return 0;
-}
-
-template
-< class T >
-void fillMatrix( const Matrix <T> & m )
+template < class T >
+void fillMatrix( Matrix <T> & m )
 {
     int i, j;
 
@@ -31,17 +21,29 @@ void fillMatrix( const Matrix <T> & m )
     }
 
     for ( i = 1; i < m.numRows(); i++ )
+    {
         for ( j = 1; j < m.numCols(); j++ )
         {
             m[i][j] = T( i * j );
         }
+    }
 }
-int main()
+
+int main( int argc, char const *argv[] )
 {
-    Matrix < int > m( 10, 5 );
+    cout << "Jim Counts" << endl;
+    cout << "CS 542 - OO" << endl;
+    cout << "Homework 6" << endl << endl;
+
+    Matrix<int> m( 10, 5 );
     fillMatrix( m );
-    cout << m;
-    Matrix < double > M( 8, 10 );
+    cout << m << endl;
+    Matrix<double> M( 8, 10 );
     fillMatrix( M );
-    cout << M;
+    cout << M << endl;
+
+    return 0;
 }
+
+
+

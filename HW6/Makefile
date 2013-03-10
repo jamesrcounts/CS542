@@ -10,7 +10,7 @@ CFLAGS = -O3 -Wall -fno-strict-overflow
 SRCS = *.cpp *.h
 CHKFLAGS = -v --inline-suppr --enable=all
 
-all: runtest
+all: runtest run
 
 clean: 
 	rm -f hw6 test array_test matrix_test *.o *.orig *.gch
