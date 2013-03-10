@@ -42,6 +42,19 @@ int main( int argc, char const *argv[] )
     fillMatrix( M );
     cout << M << endl;
 
+    int i = 0;
+    int j = m.numCols();
+
+    try
+    {
+        m[0][m.numCols()] = 99;
+    }
+    catch ( exception &e )
+    {
+        cout << "Error accessing: " << i << ", " << j << endl <<
+             "Exception: " << e.what() << endl;
+    }
+
     return 0;
 }
 

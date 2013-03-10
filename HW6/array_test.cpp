@@ -15,6 +15,11 @@ void InitializeArray( Array<int> &a )
     }
 }
 
+void IllegalAssignment( Array<int> &a )
+{
+    a[a.length()] = 42;
+}
+
 Context( DescribeAnArray )
 {
     Spec( ItIsATemplateClass )
@@ -35,6 +40,15 @@ Context( DescribeAnArray )
     {
         Array<int> it( 10 );
         Assert::That( it.length(), Equals( 10 ) );
+    }
+
+    Spec( ItThrowsExceptionsWhenIndexIsOutOfBounds )
+    {
+        Array<int> it( 10 );
+        InitializeArray( it );
+        AssertThrows( IndexOutOfBoundsException, IllegalAssignment( it ) );
+        Assert::That( LastException<IndexOutOfBoundsException>().what(),
+                      Equals( "Index is out of bounds." ) );
     }
 
     Spec( ItHasMutableCells )

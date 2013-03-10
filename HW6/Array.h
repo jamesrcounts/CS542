@@ -7,6 +7,15 @@
 
 using namespace std;
 
+class IndexOutOfBoundsException: public exception
+{
+public:
+    virtual const char *what() const throw()
+    {
+        return "Index is out of bounds.";
+    }
+} oobex;
+
 template <class Element>
 class Array
 {
@@ -44,7 +53,11 @@ public:
 
     Element &operator []( int i )
     {
-        assert( 0 <= i && i < sz );
+        if ( i < 0 || sz <= i )
+        {
+            throw oobex;
+        }
+
         return buf[i];
     }
 
