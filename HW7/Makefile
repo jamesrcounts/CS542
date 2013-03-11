@@ -19,8 +19,8 @@ run: hw7_wc hw7_ns
 	./hw7_wc
 	./hw7_ns
 
-hw7_ns: hw7.cpp NumberSorter.o
-	$(CC) $(INCLUDE) hw7.cpp NumberSorter.o -o hw7_ns $(CFLAGS)
+hw7_ns: hw7_ns.cpp NumberSorter.o
+	$(CC) $(INCLUDE) hw7_ns.cpp NumberSorter.o -o hw7_ns $(CFLAGS)
 
 hw7_wc: hw7_wc.cpp WordCounter.o 
 	$(CC) $(INCLUDE) hw7_wc.cpp WordCounter.o -o hw7_wc $(CFLAGS)
