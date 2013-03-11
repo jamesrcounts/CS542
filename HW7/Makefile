@@ -13,13 +13,17 @@ CHKFLAGS = -v --inline-suppr --enable=all
 all: runtest run format check
 
 clean: 
-	rm -f hw7 test array_test matrix_test *.o *.orig *.gch
+	rm -f hw7_wc hw7_ns numbersorter_test wordcounter_test even.txt odd.txt *.o *.orig *.gch
 
-run: hw7
-	./hw7
+run: hw7_wc hw7_ns
+	./hw7_wc
+	./hw7_ns
 
-hw7: hw7.cpp WordCounter.o 
-	$(CC) $(INCLUDE) hw7.cpp WordCounter.o -o hw7 $(CFLAGS)
+hw7_ns: hw7.cpp NumberSorter.o
+	$(CC) $(INCLUDE) hw7.cpp NumberSorter.o -o hw7_ns $(CFLAGS)
+
+hw7_wc: hw7_wc.cpp WordCounter.o 
+	$(CC) $(INCLUDE) hw7_wc.cpp WordCounter.o -o hw7_wc $(CFLAGS)
 
 runtest: wordcounter_test numbersorter_test
 	./numbersorter_test
