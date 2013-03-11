@@ -1,4 +1,5 @@
 #include "NumberSorter.h"
+#include "copyif.h"
 #include <algorithm>
 #include <iterator>
 
@@ -12,28 +13,6 @@ bool is_even( int i )
 bool is_odd( int i )
 {
     return ( i % 2 == 1 );
-}
-
-/*
-| Backported from C++ 11 via:
-| http://www.cplusplus.com/reference/algorithm/copy_if/
-*/
-template <class InputIterator, class OutputIterator, class UnaryPredicate>
-OutputIterator copy_if( InputIterator first, InputIterator last,
-                        OutputIterator result, UnaryPredicate pred )
-{
-    while ( first != last )
-    {
-        if ( pred( *first ) )
-        {
-            *result = *first;
-            ++result;
-        }
-
-        ++first;
-    }
-
-    return result;
 }
 
 NumberSorter::NumberSorter() : sorted( false ) {}

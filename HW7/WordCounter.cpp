@@ -1,6 +1,23 @@
 #include "WordCounter.h"
+#include "copyif.h"
+#include <iterator>
+#include <sstream>
 
 using namespace std;
+
+bool not_punctuation( char c )
+{
+    string punctuation = "'[](){}:,-_.!?\";\\/@#$%^&*+|~`<>";
+    return ( punctuation.find_first_of( c ) == string::npos );
+}
+
+string WordCounter::erase_punctuation( string s )
+{
+    stringstream result;
+    ostream_iterator<char> it( result );
+    copy_if( s.begin(), s.end(), it, &not_punctuation );
+    return result.str();
+}
 
 void WordCounter::count( istream &in )
 {
@@ -8,6 +25,8 @@ void WordCounter::count( istream &in )
 
     while ( in >> word )
     {
+        word = erase_punctuation( word );
+        transform( word.begin(), word.end(), word.begin(), ::tolower );
         vector<string>::iterator it;
         it = find( ex.begin(), ex.end(), word );
 

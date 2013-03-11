@@ -1,0 +1,19 @@
+﻿C++ Programming
+Homework 7
+1. For all these problems, use STL containers, iterators, algorithms, and 
+(perhaps) some functions or function objects.
+2. Write a program that counts the frequency of occurance of each word in the 
+input file while excluding certain common words.
+1. (30 points) Store each word in a map. The key is the word and the value is 
+the count of the number of times the word appears in the input text.
+2. (30 points) Define a word exclusion set containing words such as a, an, or, 
+the, and, and but. Before entering a word in the map, make sure it is not 
+present in the exclusion set. Display the list of words and their associated 
+count when reading of the text file is complete. Or better yet, initialize this 
+list from a named file.
+1. (40 points) Write a program that reads a sequence of integers from a file (or
+ from cin if you prefer). It should sort them, then write the odd ones to one 
+ file (separated by a space), then write the even ones to another file, one per 
+ line.
+2. Note you can use ifstream and ofstream for creating I/O streams bound to name
+ files and use stream iterators for reading and writing the named files.

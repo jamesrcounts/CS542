@@ -11,6 +11,7 @@ class WordCounter
 private:
     std::map<std::string, int> wc;
     std::vector<std::string> ex;
+    std::string erase_punctuation(std::string s);
 public:
     void count( std::istream &in );
     int countOf( std::string word );

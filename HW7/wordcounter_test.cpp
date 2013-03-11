@@ -16,6 +16,22 @@ Context( DescribeAWordCounter )
         Assert::That( it.countOf( "map" ), Equals( 3 ) );
     }
 
+    Spec( ItMakesWordsLowerCase )
+    {
+        WordCounter it;
+        stringstream example( "word word Map map MAP" );
+        it.count( example );
+        Assert::That( it.countOf( "map" ), Equals( 3 ) );
+    }
+
+    Spec( ItRemovesPunctuation )
+    {
+        WordCounter it;
+        stringstream example( "word word map map, map" );
+        it.count( example );
+        Assert::That( it.countOf( "map" ), Equals( 3 ) );
+    }
+
     Spec( CertainWordsCanBeExcluded )
     {
         WordCounter it;

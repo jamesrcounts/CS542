@@ -10,7 +10,7 @@ CFLAGS = -O3 -Wall -fno-strict-overflow
 SRCS = *.cpp
 CHKFLAGS = -v --inline-suppr --enable=all
 
-all: runtest format check
+all: runtest run format check
 
 clean: 
 	rm -f hw7 test array_test matrix_test *.o *.orig *.gch
@@ -18,8 +18,8 @@ clean:
 run: hw7
 	./hw7
 
-hw7: hw7.cpp 
-	$(CC) $(INCLUDE) hw7.cpp -o hw7 $(CFLAGS)
+hw7: hw7.cpp WordCounter.o 
+	$(CC) $(INCLUDE) hw7.cpp WordCounter.o -o hw7 $(CFLAGS)
 
 runtest: wordcounter_test numbersorter_test
 	./numbersorter_test
