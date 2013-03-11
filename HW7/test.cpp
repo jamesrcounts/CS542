@@ -1,52 +1,130 @@
 /* test.cpp */
 
 #include <igloo/igloo.h>
-#include "WordCounter.h"
+#include <iterator>
 
 using namespace std;
 using namespace igloo;
 
-Context( DescribeAWordCounter )
+bool is_even( int i )
 {
-    Spec( ItCountsWordsInAStream )
+    return( i % 2 == 0 );
+}
+
+bool is_odd( int i )
+{
+    return ( i % 2 == 1 );
+}
+
+template <class InputIterator, class OutputIterator, class UnaryPredicate>
+OutputIterator copy_if( InputIterator first, InputIterator last,
+                        OutputIterator result, UnaryPredicate pred )
+{
+    while ( first != last )
     {
-        WordCounter it;
-        stringstream example( "word word map map map" );
-        it.count( example );
-        Assert::That( it.countOf( "map" ), Equals( 3 ) );
+        if ( pred( *first ) )
+        {
+            *result = *first;
+            ++result;
+        }
+
+        ++first;
     }
 
-    Spec( CertainWordsCanBeExcluded )
+    return result;
+}
+
+class NumberSorter
+{
+private:
+    bool sorted;
+    std::vector<int> ns;
+public:
+    NumberSorter() : sorted( false ) {}
+
+    void read( istream &in )
     {
-        WordCounter it;
-        stringstream exclude( "as a an or the and but" );
-        it.mustExclude( exclude );
-        stringstream words( "as a word an word or the map and map but map" );
-        it.count( words );
-        Assert::That( it.countOf( "but" ), Equals( 0 ) );
+        istream_iterator<int> eos;
+
+        for ( istream_iterator<int> iit( in );
+                iit != eos;
+                ++iit )
+        {
+            ns.push_back( *iit );
+        }
+
+        sorted = false;
     }
 
-    Spec( ItCanBePrinted )
+    void sort()
     {
-        WordCounter it;
-        stringstream exclude( "as a an or the and but" );
-        it.mustExclude( exclude );
-        stringstream words( "as a word and word or the map and map but map" );
-        it.count( words );
-        it.countOf( "as" );
-        stringstream spy;
-        it.print( spy );
-        Assert::That( spy.str(), Equals( "map => 3\nword => 2\n" ) );
+        std::sort( ns.begin(), ns.end() );
+        sorted = true;
     }
 
-    Spec( ItCanBeInsertedIntoAStream )
+    void print( ostream &out )
     {
-        WordCounter it;
-        stringstream words( "word word map map map" );
-        it.count( words );
-        stringstream spy;
-        spy << it;
-        Assert::That( spy.str(), Equals( "map => 3\nword => 2\n" ) );
+        out << ( sorted ? "(sorted) " : "(unsorted) " );
+
+        ostream_iterator<int> out_it( out, " " );
+        copy( ns.begin(), ns.end(), out_it );
+    }
+
+    void print_even( ostream &out )
+    {
+        ostream_iterator<int> it( out, "\n" );
+        copy_if( ns.begin(), ns.end(), it, &is_even );
+    }
+
+    void print_odd( ostream &out )
+    {
+        ostream_iterator<int> it( out, " " );
+        copy_if( ns.begin(), ns.end(), it, &is_odd );
+    }
+};
+
+Context( DescribeANumberSorter )
+{
+    stringstream spy;
+    Spec( ItReadsIntegersFromAStream )
+    {
+        NumberSorter ns;
+        stringstream numbers( "10 21 32 43" );
+        ns.read( numbers );
+        ns.print( spy );
+        Assert::That( spy.str(), Equals( "(unsorted) 10 21 32 43 " ) );
+    }
+
+    Spec( ItSortsTheIntegers )
+    {
+        NumberSorter ns;
+        stringstream numbers( "10 32 21 43" );
+
+        ns.read( numbers );
+        ns.sort();
+        ns.print( spy );
+        Assert::That( spy.str(), Equals( "(sorted) 10 21 32 43 " ) );
+    }
+
+    Spec( ItFormatsTheOddIntegers )
+    {
+        NumberSorter ns;
+        stringstream numbers( "32 10 43 21" );
+
+        ns.read( numbers );
+        ns.sort();
+        ns.print_odd( spy );
+        Assert::That( spy.str(), Equals( "21 43 " ) );
+    }
+
+    Spec( ItFormatsTheEvenIntegers )
+    {
+        NumberSorter ns;
+        stringstream numbers( "32 10 43 21" );
+        ns.read( numbers );
+        ns.sort();
+        ns.print_even( spy );
+        Assert::That( spy.str(), Equals( "10\n32\n" ) );
     }
 };
 
