@@ -21,11 +21,15 @@ run: hw7
 hw7: hw7.cpp 
 	$(CC) $(INCLUDE) hw7.cpp -o hw7 $(CFLAGS)
 
-runtest: test
+runtest: test wordcounter_test
 	./test
+	./wordcounter_test
 
 test: test.cpp WordCounter.o
 	$(CC) $(INCLUDE) test.cpp WordCounter.o -o test $(CFLAGS)
+
+wordcounter_test: wordcounter_test.cpp WordCounter.o
+	$(CC) $(INCLUDE) wordcounter_test.cpp WordCounter.o -o wordcounter_test $(CFLAGS)
 
 WordCounter.o: WordCounter.h WordCounter.cpp
 	$(CC) $(INCLUDE) -c WordCounter.cpp $(CFLAGS);
