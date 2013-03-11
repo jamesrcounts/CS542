@@ -1,68 +1,10 @@
 /* test.cpp */
 
 #include <igloo/igloo.h>
+#include "WordCounter.h"
 
 using namespace std;
 using namespace igloo;
-
-class WordCounter
-{
-    map<string, int> wc;
-    vector<string> ex;
-public:
-    WordCounter() {}
-    ~WordCounter() {}
-
-    void count( istream &in )
-    {
-        string word;
-
-        while ( in >> word )
-        {
-            vector<string>::iterator it;
-            it = find( ex.begin(), ex.end(), word );
-
-            if ( it == ex.end() )
-            {
-                wc[word]++;
-            }
-        }
-    }
-
-    int countOf( string word )
-    {
-        return wc[word];
-    }
-
-    void mustExclude( istream &in )
-    {
-        string word;
-
-        while ( in >> word )
-        {
-            ex.push_back( word );
-        }
-    }
-
-    void print( ostream &out )
-    {
-        for ( map<string, int>::iterator it = wc.begin();
-                it != wc.end();
-                ++it )
-        {
-            if ( 0 < it->second )
-            {
-                out << it->first << " => " << it->second << endl;
-            }
-        }
-    }
-
-    friend ostream &operator<<( ostream &out, WordCounter &it )
-    {
-        it.print( out );
-        return out;
-    }
-};
 
 Context( DescribeAWordCounter )
 {

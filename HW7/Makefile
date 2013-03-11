@@ -24,8 +24,11 @@ hw7: hw7.cpp
 runtest: test
 	./test
 
-test: test.cpp
-	$(CC) $(INCLUDE) test.cpp -o test $(CFLAGS)
+test: test.cpp WordCounter.o
+	$(CC) $(INCLUDE) test.cpp WordCounter.o -o test $(CFLAGS)
+
+WordCounter.o: WordCounter.h WordCounter.cpp
+	$(CC) $(INCLUDE) -c WordCounter.cpp $(CFLAGS);
 
 format:
 	astyle -YfDHUbps4yj -k3 $(SRCS)
