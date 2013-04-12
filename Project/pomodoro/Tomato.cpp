@@ -2,9 +2,12 @@
 
 using namespace std;
 
-Tomato::Tomato() : state( NEWTOMATO ), timer( 0 ) {};
+Tomato::Tomato() : state( NEWTOMATO ), timer( 0 ), out( "Tomato.txt", ofstream::out )
+{
+    logger.AddListener( out );
+};
 
-Timer &Tomato::Next()
+Timer &Tomato::Next( string response )
 {
     switch ( state )
     {
@@ -13,16 +16,41 @@ Timer &Tomato::Next()
         state = LOGGING;
         timer = Timer( 25 );
         break;
-    case WORKING:
-        state = LOGGING;
-        break;
     case LOGGING:
         state = BREAK;
+        logger.Log( timer, response );
         timer = Timer( 0 );
         break;
     case BREAK:
+        int i = atoi( response.c_str() );
+        int bt = 0;
+
+        if ( i < 1 || 4 < i )
+        {
+            cout << "Don't understand. Try again." << endl;
+            break;
+        }
+        else
+        {
+            switch ( i )
+            {
+            case 1:
+                bt = 5;
+                break;
+            case 2:
+                bt = 10;
+                break;
+            case 3:
+                bt = 15;
+                break;
+            case 4:
+                bt = 25;
+                break;
+            }
+        }
+
         state = BACKTOWORK;
-        timer = Timer( 5 );
+        timer = Timer( bt );
         break;
     }
 
@@ -47,11 +75,14 @@ string Tomato::Menu()
     case BREAK:
         menu_text = menu.BreakMenu();
         break;
-    case WORKING:
-        break;
     }
 
-    return menu_text;
+    return  menu_text;
+}
+
+string Tomato::RecentMessages( unsigned long count )
+{
+    return logger.RecentMessages( count );
 }
 
 Tomato::TomatoState Tomato::State()

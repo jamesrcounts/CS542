@@ -17,13 +17,13 @@ void LogManager::Log( const Timer &t, const string &message )
             it != listeners.end();
             ++it )
     {
-        **it << full_message.str();
+        **it << full_message.str() << endl;
     }
 }
 
 string LogManager::RecentMessages( unsigned long count )
 {
-    stringstream recent;
+    stringstream recent( "" );
 
     unsigned long i = 0;
 

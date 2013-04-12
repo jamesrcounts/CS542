@@ -27,15 +27,15 @@ tests: tests/bin/tomato_tests tests/bin/logmanager_tests tests/bin/menu_tests te
 
 pomodoro: pomodoro/bin pomodoro/obj pomodoro/bin/pomodoro pomodoro/obj/LogManager.o  
 
-pomodoro/bin/pomodoro: pomodoro/pomodoro.cpp pomodoro/obj/Menus.o pomodoro/obj/Tomato.o 
+pomodoro/bin/pomodoro: pomodoro/pomodoro.cpp pomodoro/obj/Menus.o pomodoro/obj/Tomato.o pomodoro/obj/LogManager.o
 	cppcheck $(CHKFLAGS) pomodoro/pomodoro.cpp
 	astyle $(STYLE) pomodoro/pomodoro.cpp
-	$(CC) pomodoro/pomodoro.cpp pomodoro/obj/Menus.o pomodoro/obj/Tomato.o pomodoro/obj/Timer.o -o pomodoro/bin/pomodoro $(CFLAGS) 
+	$(CC) pomodoro/pomodoro.cpp pomodoro/obj/Menus.o pomodoro/obj/Tomato.o pomodoro/obj/LogManager.o pomodoro/obj/Timer.o -o pomodoro/bin/pomodoro $(CFLAGS) 
 
 tests/bin/tomato_tests: pomodoro tests/tomato_tests.cpp
 	cppcheck $(CHKFLAGS) tests/tomato_tests.cpp
 	astyle $(STYLE) tests/tomato_tests.cpp
-	$(CC) $(TI) tests/tomato_tests.cpp pomodoro/obj/Tomato.o pomodoro/obj/Menus.o pomodoro/obj/Timer.o -o tests/bin/tomato_tests $(CFLAGS);	
+	$(CC) $(TI) tests/tomato_tests.cpp pomodoro/obj/LogManager.o pomodoro/obj/Tomato.o pomodoro/obj/Menus.o pomodoro/obj/Timer.o -o tests/bin/tomato_tests $(CFLAGS);	
 
 tests/bin/logmanager_tests: pomodoro tests/logmanager_tests.cpp
 	cppcheck $(CHKFLAGS) tests/logmanager_tests.cpp

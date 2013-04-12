@@ -35,7 +35,7 @@ Context( DescribeATomato )
         Tomato t;
         t.Next();
         t.Next();
-        t.Next();
+        t.Next( "1" );
         Assert::That( t.State(), Equals( Tomato::BACKTOWORK ) );
         Approvals::Verify( t.Menu() );
     }
@@ -45,7 +45,7 @@ Context( DescribeATomato )
         Tomato t;
         t.Next();
         t.Next();
-        t.Next();
+        t.Next( "1" );
         t.Next();
         Assert::That( t.State(), Equals( Tomato::LOGGING ) );
         Approvals::Verify( t.Menu() );

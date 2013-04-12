@@ -10,9 +10,17 @@ int main( int argc, char const *argv[] )
 
     while ( 1 )
     {
+        char input;
+        string response;
+        cout << pom.RecentMessages( 5 ) << endl;
         cout << pom.Menu();
-        cin.get();
-        Timer &t = pom.Next();
+
+        while ( cin.get( input ) && input != ( char ) '\n' )
+        {
+            response.push_back( input );
+        }
+
+        Timer &t = pom.Next( response );
 
         while ( !t.IsExpired() )
         {
