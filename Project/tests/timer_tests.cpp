@@ -30,6 +30,26 @@ Context( DescribeATimer )
         sleep( 1 );
         Assert::That( t.IsExpired(), Equals( true ) );
     }
+
+    Spec( ItCanTellYouTheStartTime )
+    {
+        Timer t( 10, 10 );
+        Assert::That( t.Started(), Equals( 10 ) );
+    }
+
+    Spec( ItCanTellYouTheLastCheckedTime )
+    {
+        Timer t( 10, 0 );
+        t.IsExpired( 38 );
+        Assert::That( t.LastChecked(), Equals( 38 ) );
+    }
+
+    Spec( ItCanBeFormattedAsAString )
+    {
+        Timer t( 10, 0 );
+        t.IsExpired( 1000 * 60 );
+        Approvals::Verify( Timer::Format( t ) );
+    }
 };
 
 int main( int argc, char const *argv[] )

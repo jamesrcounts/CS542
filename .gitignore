@@ -18,3 +18,5 @@ test
 hw5
 *.gch
 wordcounter_test
+*.received.txt
+bin/

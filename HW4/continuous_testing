@@ -78,18 +78,23 @@ def files_have_changed
 end
 
 def get_errors_in(output)
-  error_pattern = /Stop|fault|Broken|(?<!0\s)failed|undefined|[Ee]rror|FAIL|[^a]style|warning|performance|portability|information/
+  error_pattern = /fault|Broken|(?<!0\s)failed|undefined|[Ee]rror|FAIL|[^a]style|warning|performance|portability|information/
   output.split("\n").select{|item| error_pattern =~ item}
 end
 
 def notify(build_message)
-  puts "#{build_message.message}"
+  icon = build_message.successful ? "green" : "red"
+  message = build_message.successful ? "Build OK!" : "Build Failed."
+  args = "'Build' '#{message}' --icon=/home/jim/#{icon}.jpg"
+  `notify-send #{args}`
 end
 
 def monitor
   if changes_have_occured
-    errors = get_errors_in(`make 2>&1`)
+    out = `make 2>&1`;
+    errors = get_errors_in(out)
     notify(BuildMessage.new(errors))
+    puts "#{out}"
   end
 end
 
