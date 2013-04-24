@@ -12,7 +12,7 @@ int main( int argc, char const *argv[] )
     {
         char input;
         string response;
-        cout << pom.RecentMessages( 5 ) << endl;
+        cout << pom.RecentMessages( ) << endl;
         cout << pom.Menu();
 
         while ( cin.get( input ) && input != ( char ) '\n' )

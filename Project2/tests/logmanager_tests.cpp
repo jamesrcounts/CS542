@@ -22,24 +22,24 @@ Context( DescribeALogManager )
         Approvals::Verify( logout.str() );
     }
 
-    Spec( ItPlaysBackRecentMessages )
-    {
-        LogManager l;
+    // Spec( ItPlaysBackRecentMessages )
+    // {
+    //     LogManager l;
 
-        for ( int i = 0; i < 10; ++i )
-        {
-            Timer t( 10, 10 * i );
+    //     for ( int i = 0; i < 10; ++i )
+    //     {
+    //         Timer t( 10, 10 * i );
 
-            if ( t.IsExpired( 10 * ( i + 1 ) ) )
-            {
-                string s;
-                s.push_back( char( i + 33 ) );
-                l.Log( t, s );
-            }
-        }
+    //         if ( t.IsExpired( 10 * ( i + 1 ) ) )
+    //         {
+    //             string s;
+    //             s.push_back( char( i + 33 ) );
+    //             l.Log( t, s );
+    //         }
+    //     }
 
-        Approvals::Verify( l.RecentMessages( 5 ) );
-    }
+    //     Approvals::Verify( l.RecentMessages( 5 ) );
+    // }
 };
 
 int main( int argc, char const *argv[] )

@@ -2,7 +2,11 @@
 
 using namespace std;
 
-Tomato::Tomato() : state( NEWTOMATO ), timer( 0 ), out( "Tomato.txt", ofstream::out )
+Tomato::Tomato()
+    : state( NEWTOMATO ),
+      timer( 0 ),
+      out( "Tomato.txt", ofstream::out ),
+      cache( 5 )
 {
     logger.AddListener( out );
 };
@@ -80,9 +84,9 @@ string Tomato::Menu()
     return  menu_text;
 }
 
-string Tomato::RecentMessages( unsigned long count )
+string Tomato::RecentMessages( )
 {
-    return logger.RecentMessages( count );
+    return cache.Messages( );
 }
 
 Tomato::TomatoState Tomato::State()

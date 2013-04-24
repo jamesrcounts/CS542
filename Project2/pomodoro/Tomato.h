@@ -8,6 +8,7 @@
 #include "Menus.h"
 #include "Timer.h"
 #include "LogManager.h"
+#include "MessageCache.h"
 
 class Tomato
 {
@@ -17,7 +18,7 @@ public:
     Tomato();
     std::string Menu();
     Timer &Next( std::string response = "" );
-    std::string RecentMessages( unsigned long count );
+    std::string RecentMessages();
     TomatoState State();
 private:
     TomatoState state;
@@ -25,5 +26,6 @@ private:
     std::ofstream out;
     Menus menu;
     LogManager logger;
+    MessageCache cache;
 };
 #endif
