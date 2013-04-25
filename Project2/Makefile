@@ -34,8 +34,8 @@ pomodoro/bin/pomodoro: pomodoro/pomodoro.cpp pomodoro/lib/libtomato.a
 	astyle $(STYLE) pomodoro/pomodoro.cpp
 	$(CC) $(LIB) pomodoro/pomodoro.cpp -o pomodoro/bin/pomodoro $(CFLAGS) -ltomato
 
-pomodoro/lib/libtomato.a: pomodoro/lib pomodoro/obj/Menus.o pomodoro/obj/Tomato.o pomodoro/obj/LogManager.o pomodoro/obj/Timer.o pomodoro/obj/MessageCache.o
-	ar rcs pomodoro/lib/libtomato.a pomodoro/obj/Menus.o pomodoro/obj/Tomato.o pomodoro/obj/LogManager.o pomodoro/obj/Timer.o pomodoro/obj/MessageCache.o
+pomodoro/lib/libtomato.a: pomodoro/lib pomodoro/obj/Menus.o pomodoro/obj/Tomato.o pomodoro/obj/LogManager.o pomodoro/obj/Timer.o pomodoro/obj/MessageCache.o pomodoro/obj/LogListener.gch
+	ar rcs pomodoro/lib/libtomato.a pomodoro/obj/Menus.o pomodoro/obj/Tomato.o pomodoro/obj/LogManager.o pomodoro/obj/Timer.o pomodoro/obj/MessageCache.o pomodoro/obj/LogListener.gch
 
 tests/bin/messagecache_tests: pomodoro pomodoro/lib/libtomato.a tests/messagecache_tests.cpp
 	cppcheck $(CHKFLAGS) tests/messagecache_tests.cpp
@@ -63,7 +63,7 @@ tests/bin/menu_tests: pomodoro tests/menu_tests.cpp
 	astyle $(STYLE) tests/menu_tests.cpp
 	$(CC) $(TI) tests/menu_tests.cpp pomodoro/obj/Menus.o -o tests/bin/menu_tests $(CFLAGS)
 
-pomodoro/obj/MessageCache.o: pomodoro/MessageCache.h pomodoro/MessageCache.cpp 
+pomodoro/obj/MessageCache.o: pomodoro/MessageCache.h pomodoro/MessageCache.cpp pomodoro/LogListener.h
 	cppcheck $(CHKFLAGS) pomodoro/MessageCache.h pomodoro/MessageCache.cpp
 	astyle $(STYLE) pomodoro/MessageCache.h pomodoro/MessageCache.cpp
 	chmod 666 pomodoro/MessageCache.h pomodoro/MessageCache.cpp
@@ -72,11 +72,19 @@ pomodoro/obj/MessageCache.o: pomodoro/MessageCache.h pomodoro/MessageCache.cpp
 pomodoro/obj/Tomato.o: pomodoro/Tomato.h pomodoro/Tomato.cpp 
 	cppcheck $(CHKFLAGS) pomodoro/Tomato.h pomodoro/Tomato.cpp
 	astyle $(STYLE) pomodoro/Tomato.h pomodoro/Tomato.cpp
+	chmod 666 pomodoro/Tomato.h	pomodoro/Tomato.cpp
 	$(CC) -c pomodoro/Tomato.cpp -o pomodoro/obj/Tomato.o $(CFLAGS)
+ 
+pomodoro/obj/LogListener.gch: pomodoro/LogListener.h 
+	cppcheck $(CHKFLAGS) pomodoro/LogListener.h 
+	astyle $(STYLE) pomodoro/LogListener.h 
+	chmod 666 pomodoro/LogListener.h 
+	$(CC) -c pomodoro/LogListener.h -o pomodoro/obj/LogListener.gch $(CFLAGS)
 
 pomodoro/obj/LogManager.o: pomodoro/LogManager.h pomodoro/LogManager.cpp
 	cppcheck $(CHKFLAGS) pomodoro/LogManager.h pomodoro/LogManager.cpp
 	astyle $(STYLE) pomodoro/LogManager.h pomodoro/LogManager.cpp
+	chmod 666 pomodoro/LogManager.h pomodoro/LogManager.cpp
 	$(CC) -c pomodoro/LogManager.cpp -o pomodoro/obj/LogManager.o $(CFLAGS)
 
 pomodoro/obj/Timer.o: pomodoro/Timer.h pomodoro/Timer.cpp

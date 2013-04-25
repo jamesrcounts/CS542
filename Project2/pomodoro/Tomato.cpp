@@ -8,7 +8,7 @@ Tomato::Tomato()
       out( "Tomato.txt", ofstream::out ),
       cache( 5 )
 {
-    logger.AddListener( out );
+    logger.AddListener( cache );
 };
 
 Timer &Tomato::Next( string response )

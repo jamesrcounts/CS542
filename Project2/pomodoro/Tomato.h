@@ -23,7 +23,7 @@ public:
 private:
     TomatoState state;
     Timer timer;
-    std::ofstream out;
+    FileListener out;
     Menus menu;
     LogManager logger;
     MessageCache cache;

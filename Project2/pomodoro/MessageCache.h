@@ -4,8 +4,9 @@
 #include <deque>
 #include <sstream>
 #include <string>
+#include "LogListener.h"
 
-class MessageCache
+class MessageCache : public LogListener
 {
 public:
     MessageCache( int size );
