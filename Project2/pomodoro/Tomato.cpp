@@ -5,10 +5,11 @@ using namespace std;
 Tomato::Tomato()
     : state( NEWTOMATO ),
       timer( 0 ),
-      out( "Tomato.txt", ofstream::out ),
+      out( "Tomato.txt"/*, ofstream::out*/ ),
       cache( 5 )
 {
     logger.AddListener( cache );
+    logger.AddListener( out );
 };
 
 Timer &Tomato::Next( string response )

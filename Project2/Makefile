@@ -27,15 +27,15 @@ runtest: tests
 
 tests: tests/bin/messagecache_tests tests/bin/tomato_tests tests/bin/logmanager_tests tests/bin/menu_tests tests/bin/timer_tests tests/bin
 
-pomodoro: pomodoro/bin pomodoro/obj  pomodoro/bin/pomodoro pomodoro/obj/LogManager.o  
+pomodoro: pomodoro/bin pomodoro/obj pomodoro/lib/libtomato.a  pomodoro/bin/pomodoro 
 
 pomodoro/bin/pomodoro: pomodoro/pomodoro.cpp pomodoro/lib/libtomato.a
 	cppcheck $(CHKFLAGS) pomodoro/pomodoro.cpp
 	astyle $(STYLE) pomodoro/pomodoro.cpp
 	$(CC) $(LIB) pomodoro/pomodoro.cpp -o pomodoro/bin/pomodoro $(CFLAGS) -ltomato
 
-pomodoro/lib/libtomato.a: pomodoro/lib pomodoro/obj/Menus.o pomodoro/obj/Tomato.o pomodoro/obj/LogManager.o pomodoro/obj/Timer.o pomodoro/obj/MessageCache.o pomodoro/obj/LogListener.gch
-	ar rcs pomodoro/lib/libtomato.a pomodoro/obj/Menus.o pomodoro/obj/Tomato.o pomodoro/obj/LogManager.o pomodoro/obj/Timer.o pomodoro/obj/MessageCache.o pomodoro/obj/LogListener.gch
+pomodoro/lib/libtomato.a: pomodoro/lib pomodoro/obj/FileListener.o pomodoro/obj/Menus.o pomodoro/obj/Tomato.o pomodoro/obj/LogManager.o pomodoro/obj/Timer.o pomodoro/obj/MessageCache.o pomodoro/obj/LogListener.gch
+	ar rcs pomodoro/lib/libtomato.a pomodoro/obj/FileListener.o pomodoro/obj/Menus.o pomodoro/obj/Tomato.o pomodoro/obj/LogManager.o pomodoro/obj/Timer.o pomodoro/obj/MessageCache.o pomodoro/obj/LogListener.gch
 
 tests/bin/messagecache_tests: pomodoro pomodoro/lib/libtomato.a tests/messagecache_tests.cpp
 	cppcheck $(CHKFLAGS) tests/messagecache_tests.cpp
@@ -68,6 +68,12 @@ pomodoro/obj/MessageCache.o: pomodoro/MessageCache.h pomodoro/MessageCache.cpp p
 	astyle $(STYLE) pomodoro/MessageCache.h pomodoro/MessageCache.cpp
 	chmod 666 pomodoro/MessageCache.h pomodoro/MessageCache.cpp
 	$(CC) -c pomodoro/MessageCache.cpp -o pomodoro/obj/MessageCache.o $(CFLAGS)
+
+pomodoro/obj/FileListener.o: pomodoro/FileListener.h pomodoro/FileListener.cpp pomodoro/LogListener.h
+	cppcheck $(CHKFLAGS) pomodoro/FileListener.h pomodoro/FileListener.cpp
+	astyle $(STYLE) pomodoro/FileListener.h pomodoro/FileListener.cpp
+	chmod 666 pomodoro/FileListener.h pomodoro/FileListener.cpp
+	$(CC) -c pomodoro/FileListener.cpp -o pomodoro/obj/FileListener.o $(CFLAGS)
 
 pomodoro/obj/Tomato.o: pomodoro/Tomato.h pomodoro/Tomato.cpp 
 	cppcheck $(CHKFLAGS) pomodoro/Tomato.h pomodoro/Tomato.cpp
