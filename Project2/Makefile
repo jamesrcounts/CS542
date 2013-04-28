@@ -32,6 +32,7 @@ pomodoro: pomodoro/bin pomodoro/obj pomodoro/lib/libtomato.a  pomodoro/bin/pomod
 pomodoro/bin/pomodoro: pomodoro/pomodoro.cpp pomodoro/lib/libtomato.a
 	cppcheck $(CHKFLAGS) pomodoro/pomodoro.cpp
 	astyle $(STYLE) pomodoro/pomodoro.cpp
+	chmod 666 pomodoro/pomodoro.cpp
 	$(CC) $(LIB) pomodoro/pomodoro.cpp -o pomodoro/bin/pomodoro $(CFLAGS) -ltomato
 
 pomodoro/lib/libtomato.a: pomodoro/lib pomodoro/obj/FileListener.o pomodoro/obj/Menus.o pomodoro/obj/Tomato.o pomodoro/obj/LogManager.o pomodoro/obj/Timer.o pomodoro/obj/MessageCache.o pomodoro/obj/LogListener.gch
@@ -46,6 +47,7 @@ tests/bin/messagecache_tests: pomodoro pomodoro/lib/libtomato.a tests/messagecac
 tests/bin/tomato_tests: pomodoro tests/tomato_tests.cpp pomodoro/lib/libtomato.a
 	cppcheck $(CHKFLAGS) tests/tomato_tests.cpp
 	astyle $(STYLE) tests/tomato_tests.cpp
+	chmod 666 tests/tomato_tests.cpp
 	$(CC) $(TI) $(LIB) tests/tomato_tests.cpp -ltomato -o tests/bin/tomato_tests -g -O0 $(CFLAGS)	
 
 tests/bin/logmanager_tests: pomodoro tests/logmanager_tests.cpp pomodoro/lib/libtomato.a

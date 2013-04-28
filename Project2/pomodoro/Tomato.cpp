@@ -2,15 +2,12 @@
 
 using namespace std;
 
-Tomato::Tomato()
+Tomato::Tomato( LogManager &log )
     : state( NEWTOMATO ),
       timer( 0 ),
-      out( "Tomato.txt"/*, ofstream::out*/ ),
-      cache( 5 )
+      logger( &log )
 {
-    logger.AddListener( cache );
-    logger.AddListener( out );
-};
+}
 
 Timer &Tomato::Next( string response )
 {
@@ -23,7 +20,7 @@ Timer &Tomato::Next( string response )
         break;
     case LOGGING:
         state = BREAK;
-        logger.Log( timer, response );
+        logger->Log( timer, response );
         timer = Timer( 0 );
         break;
     case BREAK:
@@ -83,11 +80,6 @@ string Tomato::Menu()
     }
 
     return  menu_text;
-}
-
-string Tomato::RecentMessages( )
-{
-    return cache.Messages( );
 }
 
 Tomato::TomatoState Tomato::State()

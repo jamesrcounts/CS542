@@ -6,13 +6,19 @@ using namespace std;
 
 int main( int argc, char const *argv[] )
 {
-    Tomato pom;
+    FileListener out( "Tomato.txt" );
+    MessageCache cache( 5 );
+    LogManager logger;
+    logger.AddListener( cache );
+    logger.AddListener( out );
+
+    Tomato pom( logger );
 
     while ( 1 )
     {
         char input;
         string response;
-        cout << pom.RecentMessages( ) << endl;
+        cout << cache.Messages() << endl;
         cout << pom.Menu();
 
         while ( cin.get( input ) && input != ( char ) '\n' )

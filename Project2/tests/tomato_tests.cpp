@@ -8,14 +8,16 @@ Context( DescribeATomato )
 {
     Spec( ItStartsInTheNewTomatoState )
     {
-        Tomato t;
+        LogManager lm;
+        Tomato t( lm );
         Assert::That( t.State(), Equals( Tomato::NEWTOMATO ) );
         Approvals::Verify( t.Menu() );
     }
 
     Spec( ItGoesToLoggingAfterNew )
     {
-        Tomato t;
+        LogManager lm;
+        Tomato t( lm );
         t.Next();
         Assert::That( t.State(), Equals( Tomato::LOGGING ) );
         Approvals::Verify( t.Menu() );
@@ -23,7 +25,8 @@ Context( DescribeATomato )
 
     Spec( ItGoesToBreakAfterLogging )
     {
-        Tomato t;
+        LogManager lm;
+        Tomato t( lm );
         t.Next();
         t.Next();
         Assert::That( t.State(), Equals( Tomato::BREAK ) );
@@ -32,7 +35,8 @@ Context( DescribeATomato )
 
     Spec( ItGoesBackToWorkAfterBreak )
     {
-        Tomato t;
+        LogManager lm;
+        Tomato t( lm );
         t.Next();
         t.Next();
         t.Next( "1" );
@@ -42,7 +46,8 @@ Context( DescribeATomato )
 
     Spec( ItGoesToLoggingAfterWork )
     {
-        Tomato t;
+        LogManager lm;
+        Tomato t( lm );
         t.Next();
         t.Next();
         t.Next( "1" );
