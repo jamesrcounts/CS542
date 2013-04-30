@@ -9,11 +9,11 @@
 class MessageCache : public LogListener
 {
 public:
-    MessageCache( int size );
+    MessageCache( unsigned int size );
     void Insert( std::string message );
     std::string Messages();
 private:
-    int max;
+    unsigned int max;
     std::deque<std::string> cache;
 };
 #endif

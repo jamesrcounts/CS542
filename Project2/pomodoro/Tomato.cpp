@@ -3,7 +3,7 @@
 using namespace std;
 
 Tomato::Tomato( LogManager &log )
-    : state( NEWTOMATO ),
+    : pomodoroState( &PomodoroStates::New() ),
       timer( 0 ),
       logger( &log )
 {
@@ -11,78 +11,43 @@ Tomato::Tomato( LogManager &log )
 
 Timer &Tomato::Next( string response )
 {
-    switch ( state )
-    {
-    case BACKTOWORK:
-    case NEWTOMATO:
-        state = LOGGING;
-        timer = Timer( 25 );
-        break;
-    case LOGGING:
-        state = BREAK;
-        logger->Log( timer, response );
-        timer = Timer( 0 );
-        break;
-    case BREAK:
-        int i = atoi( response.c_str() );
-        int bt = 0;
-
-        if ( i < 1 || 4 < i )
-        {
-            cout << "Don't understand. Try again." << endl;
-            break;
-        }
-        else
-        {
-            switch ( i )
-            {
-            case 1:
-                bt = 5;
-                break;
-            case 2:
-                bt = 10;
-                break;
-            case 3:
-                bt = 15;
-                break;
-            case 4:
-                bt = 25;
-                break;
-            }
-        }
-
-        state = BACKTOWORK;
-        timer = Timer( bt );
-        break;
-    }
-
-    return timer;
+    State().HandleResponse( response, this );
+    State().SetTimer( response, this );
+    State().MoveNext( this );
+    return GetTimer();
 }
 
 string Tomato::Menu()
 {
-    string menu_text;
-
-    switch ( state )
-    {
-    case NEWTOMATO:
-        menu_text = menu.MainMenu();
-        break;
-    case LOGGING:
-        menu_text = menu.TomatoFinishedMenu();
-        break;
-    case BACKTOWORK:
-        menu_text = menu.BackToWorkMenu();
-        break;
-    case BREAK:
-        menu_text = menu.BreakMenu();
-        break;
-    }
-
-    return  menu_text;
+    return State().MenuText( this );
 }
 
-Tomato::TomatoState Tomato::State()
+PomodoroState &Tomato::State()
 {
-    return state;
+    return *pomodoroState;
+}
+
+void Tomato::MoveTo( PomodoroState &nextState )
+{
+    pomodoroState = &nextState;
+}
+
+Timer &Tomato::GetTimer()
+{
+    return timer;
+}
+
+void Tomato::SetTimer( Timer t )
+{
+    timer = t;
+}
+
+void Tomato::WriteLogEntry( string response )
+{
+    logger->Log( GetTimer(), response );
+}
+
+Menus &Tomato::GetMenus()
+{
+    return menu;
 }

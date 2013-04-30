@@ -10,6 +10,7 @@
 #include "Menus.h"
 #include "MessageCache.h"
 #include "Timer.h"
+#include "PomodoroState.h"
 
 class Tomato
 {
@@ -18,10 +19,15 @@ public:
 
     Tomato( LogManager &log );
     std::string Menu();
+    void MoveTo( PomodoroState &nextState );
     Timer &Next( std::string response = "" );
-    TomatoState State();
+    PomodoroState &State();
+    Timer &GetTimer();
+    Menus &GetMenus();
+    void SetTimer( Timer t );
+    void WriteLogEntry( std::string response );
 private:
-    TomatoState state;
+    PomodoroState *pomodoroState;
     Timer timer;
     Menus menu;
     LogManager *logger;

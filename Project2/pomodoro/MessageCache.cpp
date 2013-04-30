@@ -1,6 +1,6 @@
 #include "MessageCache.h"
 
-MessageCache::MessageCache( int size ) : max( size ) {}
+MessageCache::MessageCache( unsigned int size ) : max( size ) {}
 
 void MessageCache::Insert( std::string message )
 {
