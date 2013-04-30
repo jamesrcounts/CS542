@@ -12,7 +12,6 @@ protected:
     PomodoroState() {};
 public:
     virtual ~PomodoroState() {};
-    virtual int GetTypeCode() = 0;
     virtual void HandleResponse( std::string response, Tomato *t ) = 0;
     virtual std::string MenuText( Tomato *t ) = 0;
     virtual void MoveNext( Tomato *t ) = 0;
@@ -22,7 +21,6 @@ public:
 class BackToWork : public PomodoroState
 {
 public:
-    int GetTypeCode();
     std::string MenuText( Tomato *t );
     void MoveNext( Tomato *t );
     void SetTimer( std::string response, Tomato *t );
@@ -32,7 +30,6 @@ public:
 class Break : public PomodoroState
 {
 public:
-    int GetTypeCode();
     std::string MenuText( Tomato *t );
     void MoveNext( Tomato *t );
     void SetTimer( std::string response, Tomato *t );
@@ -42,7 +39,6 @@ public:
 class Logging : public PomodoroState
 {
 public:
-    int GetTypeCode();
     std::string MenuText( Tomato *t );
     void MoveNext( Tomato *t );
     void SetTimer( std::string response, Tomato *t );
@@ -52,7 +48,6 @@ public:
 class NewTomato : public PomodoroState
 {
 public:
-    int GetTypeCode();
     std::string MenuText( Tomato *t );
     void MoveNext( Tomato *t );
     void SetTimer( std::string response, Tomato *t );
@@ -64,11 +59,13 @@ class PomodoroStates
 private:
     class StateInstances
     {
+    private:
     public:
         PomodoroState *backToWork;
         PomodoroState *breakTime;
         PomodoroState *logging;
         PomodoroState *newTomato;
+
         StateInstances()
         {
             backToWork = new BackToWork();
@@ -99,8 +96,5 @@ public:
 
     static PomodoroState &ReturnToWork();
 };
-
-
-
 
 #endif

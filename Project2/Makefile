@@ -76,36 +76,6 @@ pomodoro/lib/libtomato.a: $(OBJS)
 	rm -f pomodoro/lib/libtomato.a
 	ar rcs pomodoro/lib/libtomato.a $(OBJS)
 
-pomodoro/obj/PomodoroStates.o: pomodoro/PomodoroStates.h pomodoro/PomodoroStates.cpp
-	$(CHECK) pomodoro/PomodoroStates.h pomodoro/PomodoroStates.cpp
-	$(STYLE) pomodoro/PomodoroStates.h pomodoro/PomodoroStates.cpp
-	chmod 666 pomodoro/PomodoroStates.h pomodoro/PomodoroStates.cpp
-	$(CC) -c pomodoro/PomodoroStates.cpp -o pomodoro/obj/PomodoroStates.o $(CFLAGS)
-
-pomodoro/obj/BackToWork.o: pomodoro/BackToWork.h pomodoro/BackToWork.cpp
-	$(CHECK) pomodoro/BackToWork.h pomodoro/BackToWork.cpp
-	$(STYLE) pomodoro/BackToWork.h pomodoro/BackToWork.cpp
-	chmod 666 pomodoro/BackToWork.h pomodoro/BackToWork.cpp
-	$(CC) -c pomodoro/BackToWork.cpp -o pomodoro/obj/BackToWork.o $(CFLAGS)
-
-pomodoro/obj/Logging.o: pomodoro/Logging.h pomodoro/Logging.cpp
-	$(CHECK) pomodoro/Logging.h pomodoro/Logging.cpp
-	$(STYLE) pomodoro/Logging.h pomodoro/Logging.cpp
-	chmod 666 pomodoro/Logging.h pomodoro/Logging.cpp
-	$(CC) -c pomodoro/Logging.cpp -o pomodoro/obj/Logging.o $(CFLAGS)
-
-pomodoro/obj/Break.o: pomodoro/Break.h pomodoro/Break.cpp
-	$(CHECK) pomodoro/Break.h pomodoro/Break.cpp
-	$(STYLE) pomodoro/Break.h pomodoro/Break.cpp
-	chmod 666 pomodoro/Break.h pomodoro/Break.cpp
-	$(CC) -c pomodoro/Break.cpp -o pomodoro/obj/Break.o $(CFLAGS)
-
-pomodoro/obj/NewTomato.o: pomodoro/NewTomato.h pomodoro/NewTomato.cpp
-	$(CHECK) pomodoro/NewTomato.h pomodoro/NewTomato.cpp
-	$(STYLE) pomodoro/NewTomato.h pomodoro/NewTomato.cpp
-	chmod 666 pomodoro/NewTomato.h pomodoro/NewTomato.cpp
-	$(CC) -c pomodoro/NewTomato.cpp -o pomodoro/obj/NewTomato.o $(CFLAGS)
-
 pomodoro/obj/PomodoroState.o: pomodoro/PomodoroState.h pomodoro/PomodoroState.cpp
 	$(CHECK) pomodoro/PomodoroState.h  pomodoro/PomodoroState.cpp
 	$(STYLE) pomodoro/PomodoroState.h  pomodoro/PomodoroState.cpp

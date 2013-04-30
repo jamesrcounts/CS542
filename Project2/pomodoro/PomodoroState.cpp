@@ -25,11 +25,6 @@ PomodoroState &PomodoroStates::ReturnToWork()
     return *states.backToWork;
 }
 
-int NewTomato::GetTypeCode()
-{
-    return Tomato::NEWTOMATO;
-}
-
 std::string NewTomato::MenuText( Tomato *t )
 {
     return t->GetMenus().MainMenu();
@@ -48,11 +43,6 @@ void NewTomato::SetTimer( std::string response, Tomato *t )
 void NewTomato::HandleResponse( string response, Tomato *t )
 {
 
-}
-
-int BackToWork::GetTypeCode()
-{
-    return Tomato::BACKTOWORK;
 }
 
 std::string BackToWork::MenuText( Tomato *t )
@@ -75,11 +65,6 @@ void BackToWork::HandleResponse( string response, Tomato *t )
 
 }
 
-
-int Logging::GetTypeCode()
-{
-    return Tomato::LOGGING;
-}
 std::string Logging::MenuText( Tomato *t )
 {
     return t->GetMenus().TomatoFinishedMenu();
@@ -98,12 +83,6 @@ void Logging::SetTimer( std::string response, Tomato *t )
 void Logging::HandleResponse( string response, Tomato *t )
 {
     t->WriteLogEntry( response );
-}
-
-
-int Break::GetTypeCode()
-{
-    return Tomato::BREAK;
 }
 
 std::string Break::MenuText( Tomato *t )
@@ -151,4 +130,3 @@ void Break::HandleResponse( string response, Tomato *t )
 {
 
 }
-

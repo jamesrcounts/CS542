@@ -15,8 +15,6 @@
 class Tomato
 {
 public:
-    enum TomatoState { NEWTOMATO, BREAK, LOGGING, BACKTOWORK, };
-
     Tomato( LogManager &log );
     std::string Menu();
     void MoveTo( PomodoroState &nextState );

@@ -11,7 +11,7 @@ Context( DescribeATomato )
         PomodoroState *state = &PomodoroStates::New();
         LogManager lm;
         Tomato t( lm );
-        Assert::That( t.State().GetTypeCode(), Equals( state->GetTypeCode() ) );
+        Assert::That( &t.State(), Equals( state ) );
         Approvals::Verify( t.Menu() );
     }
 
@@ -21,7 +21,7 @@ Context( DescribeATomato )
         LogManager lm;
         Tomato t( lm );
         t.Next();
-        Assert::That( t.State().GetTypeCode(), Equals( state->GetTypeCode() ) );
+        Assert::That( &t.State(), Equals( state ) );
         Approvals::Verify( t.Menu() );
     }
 
@@ -32,7 +32,7 @@ Context( DescribeATomato )
         Tomato t( lm );
         t.Next();
         t.Next();
-        Assert::That( t.State().GetTypeCode(), Equals( state->GetTypeCode() ) );
+        Assert::That( &t.State(), Equals( state ) );
         Approvals::Verify( t.Menu() );
     }
 
@@ -44,7 +44,7 @@ Context( DescribeATomato )
         t.Next();
         t.Next();
         t.Next( "1" );
-        Assert::That( t.State().GetTypeCode(), Equals( state->GetTypeCode() ) );
+        Assert::That( &t.State(), Equals( state ) );
         Approvals::Verify( t.Menu() );
     }
 
@@ -57,7 +57,7 @@ Context( DescribeATomato )
         t.Next();
         t.Next( "1" );
         t.Next();
-        Assert::That( t.State().GetTypeCode(), Equals( state->GetTypeCode() ) );
+        Assert::That( &t.State(), Equals( state ) );
         Approvals::Verify( t.Menu() );
     }
 };
